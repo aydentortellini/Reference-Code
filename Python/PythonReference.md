@@ -297,3 +297,407 @@ random.randint(1, 10)       # Random int 1-10
 random.choice(my_list)      # Random item from list
 random.shuffle(my_list)     # Shuffle list in place
 ```
+
+## Tuples
+
+```python
+# Tuples are like lists but immutable (can't change after creation)
+coords = (10, 20)
+rgb = (255, 128, 0)
+
+# Access (same as lists)
+coords[0]               # 10
+coords[-1]              # 20
+
+# Unpack
+x, y = coords           # x=10, y=20
+
+# Single element tuple (need trailing comma)
+single = (42,)
+
+# Useful for returning multiple values from functions
+# and as dictionary keys (lists can't be dict keys)
+```
+
+## Sets
+
+```python
+# Unordered collection of unique items
+colors = {"red", "green", "blue"}
+
+# Add/remove
+colors.add("yellow")
+colors.remove("red")        # Error if not found
+colors.discard("red")       # No error if not found
+
+# Set operations
+a = {1, 2, 3, 4}
+b = {3, 4, 5, 6}
+
+a | b       # Union: {1, 2, 3, 4, 5, 6}
+a & b       # Intersection: {3, 4}
+a - b       # Difference: {1, 2}
+a ^ b       # Symmetric difference: {1, 2, 5, 6}
+
+# Remove duplicates from a list
+nums = [1, 2, 2, 3, 3, 3]
+unique = list(set(nums))    # [1, 2, 3]
+```
+
+## Ternary Operator
+
+```python
+# One-line if/else
+age = 18
+status = "adult" if age >= 18 else "minor"
+
+# Works in assignments, return statements, etc.
+print("even" if x % 2 == 0 else "odd")
+```
+
+## Dictionary & Set Comprehensions
+
+```python
+# Dictionary comprehension
+squares = {x: x**2 for x in range(5)}
+# {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
+
+# With condition
+even_sq = {x: x**2 for x in range(10) if x % 2 == 0}
+
+# Set comprehension
+unique_lengths = {len(word) for word in ["hi", "hey", "hello"]}
+# {2, 3, 5}
+```
+
+## Lambda Functions
+
+```python
+# Anonymous (unnamed) one-line functions
+square = lambda x: x ** 2
+square(5)               # 25
+
+add = lambda a, b: a + b
+add(3, 4)               # 7
+
+# Useful with sort, map, filter
+students = [("Alice", 85), ("Bob", 92), ("Charlie", 78)]
+students.sort(key=lambda s: s[1])  # Sort by score
+```
+
+## Map, Filter, Zip
+
+```python
+# map - apply function to every item
+nums = [1, 2, 3, 4]
+doubled = list(map(lambda x: x * 2, nums))   # [2, 4, 6, 8]
+
+# filter - keep items that return True
+evens = list(filter(lambda x: x % 2 == 0, nums))  # [2, 4]
+
+# zip - pair up items from multiple lists
+names = ["Alice", "Bob", "Charlie"]
+scores = [85, 92, 78]
+paired = list(zip(names, scores))
+# [("Alice", 85), ("Bob", 92), ("Charlie", 78)]
+
+for name, score in zip(names, scores):
+    print(f"{name}: {score}")
+```
+
+## *args and **kwargs
+
+```python
+# *args - accept any number of positional arguments
+def add_all(*args):
+    return sum(args)
+
+add_all(1, 2, 3)         # 6
+add_all(1, 2, 3, 4, 5)   # 15
+
+# **kwargs - accept any number of keyword arguments
+def print_info(**kwargs):
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+
+print_info(name="Alice", age=25)
+
+# Can combine both
+def func(a, b, *args, **kwargs):
+    pass
+```
+
+## Classes (OOP Basics)
+
+```python
+class Dog:
+    # Class variable (shared by all instances)
+    species = "Canis familiaris"
+
+    # Constructor
+    def __init__(self, name, age):
+        self.name = name        # Instance variable
+        self.age = age
+
+    # Method
+    def bark(self):
+        return f"{self.name} says Woof!"
+
+    # String representation
+    def __str__(self):
+        return f"{self.name}, age {self.age}"
+
+# Create objects
+my_dog = Dog("Rex", 5)
+print(my_dog.name)          # "Rex"
+print(my_dog.bark())        # "Rex says Woof!"
+print(my_dog)               # "Rex, age 5"
+
+# Inheritance
+class Puppy(Dog):
+    def __init__(self, name, age, toy):
+        super().__init__(name, age)
+        self.toy = toy
+
+    def play(self):
+        return f"{self.name} plays with {self.toy}"
+```
+
+## Modules & Imports
+
+```python
+# Import entire module
+import math
+math.sqrt(16)               # 4.0
+
+# Import specific items
+from math import sqrt, pi
+sqrt(16)                     # 4.0
+
+# Import with alias
+import numpy as np
+
+# Common standard library modules
+import os               # File system operations
+import sys              # System-specific parameters
+import math             # Math functions
+import random           # Random numbers
+import datetime         # Date and time
+import json             # JSON encoding/decoding
+import re               # Regular expressions
+import collections      # Specialized containers
+```
+
+## Working with Dates & Times
+
+```python
+from datetime import datetime, date, timedelta
+
+# Current date/time
+now = datetime.now()
+today = date.today()
+
+# Create specific date
+birthday = date(2000, 5, 15)
+
+# Format dates
+now.strftime("%Y-%m-%d")       # "2026-02-10"
+now.strftime("%B %d, %Y")      # "February 10, 2026"
+now.strftime("%I:%M %p")       # "03:30 PM"
+
+# Date math
+tomorrow = today + timedelta(days=1)
+next_week = today + timedelta(weeks=1)
+diff = date(2026, 12, 25) - today   # timedelta object
+print(diff.days)                     # days until Christmas
+```
+
+## JSON
+
+```python
+import json
+
+# Python dict to JSON string
+data = {"name": "Alice", "age": 25}
+json_str = json.dumps(data)              # '{"name": "Alice", "age": 25}'
+json_pretty = json.dumps(data, indent=2) # Pretty-printed
+
+# JSON string to Python dict
+parsed = json.loads(json_str)
+parsed["name"]                            # "Alice"
+
+# Read/write JSON files
+with open("data.json", "r") as f:
+    data = json.load(f)
+
+with open("data.json", "w") as f:
+    json.dump(data, f, indent=2)
+```
+
+## Regular Expressions
+
+```python
+import re
+
+text = "My email is alice@example.com and bob@test.org"
+
+# Search for pattern
+match = re.search(r"\d+", "There are 42 apples")
+if match:
+    print(match.group())        # "42"
+
+# Find all matches
+emails = re.findall(r"[\w.]+@[\w.]+", text)
+# ["alice@example.com", "bob@test.org"]
+
+# Replace
+cleaned = re.sub(r"\d+", "X", "abc123def456")
+# "abcXdefX"
+
+# Common patterns
+r"\d"       # Digit (0-9)
+r"\w"       # Word character (a-z, A-Z, 0-9, _)
+r"\s"       # Whitespace
+r"."        # Any character except newline
+r"+"        # One or more
+r"*"        # Zero or more
+r"?"        # Zero or one
+r"[abc]"    # Character class (a, b, or c)
+r"^"        # Start of string
+r"$"        # End of string
+```
+
+## Decorators
+
+```python
+# A decorator wraps a function to add behavior
+def timer(func):
+    import time
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+        print(f"{func.__name__} took {end - start:.2f}s")
+        return result
+    return wrapper
+
+@timer
+def slow_function():
+    import time
+    time.sleep(1)
+
+slow_function()     # "slow_function took 1.00s"
+```
+
+## Generators
+
+```python
+# Generators produce values one at a time (memory efficient)
+def countdown(n):
+    while n > 0:
+        yield n
+        n -= 1
+
+for num in countdown(5):
+    print(num)              # 5, 4, 3, 2, 1
+
+# Generator expression (like list comp but with parentheses)
+squares = (x**2 for x in range(1000000))  # Doesn't store all in memory
+```
+
+## Useful String Methods
+
+```python
+# Checking content
+"hello123".isalnum()    # True  (letters and numbers only)
+"hello".isalpha()       # True  (letters only)
+"12345".isdigit()       # True  (digits only)
+"hello".islower()       # True
+"HELLO".isupper()       # True
+"  ".isspace()          # True
+
+# Padding/alignment
+"hi".ljust(10)          # "hi        "
+"hi".rjust(10)          # "        hi"
+"hi".center(10)         # "    hi    "
+"42".zfill(5)           # "00042"
+
+# Starts/ends with
+"hello.py".endswith(".py")    # True
+"hello.py".startswith("he")   # True
+
+# Multi-line strings
+text = """
+This is a
+multi-line string
+"""
+```
+
+## Unpacking & Advanced Assignment
+
+```python
+# List/tuple unpacking
+first, *rest = [1, 2, 3, 4, 5]
+# first = 1, rest = [2, 3, 4, 5]
+
+first, *middle, last = [1, 2, 3, 4, 5]
+# first = 1, middle = [2, 3, 4], last = 5
+
+# Dictionary merging (Python 3.9+)
+dict1 = {"a": 1, "b": 2}
+dict2 = {"b": 3, "c": 4}
+merged = dict1 | dict2     # {"a": 1, "b": 3, "c": 4}
+
+# Walrus operator (Python 3.8+) - assign and use in one step
+if (n := len("hello")) > 3:
+    print(f"Length {n} is greater than 3")
+```
+
+## Common Patterns
+
+```python
+# Counting items
+from collections import Counter
+words = ["apple", "banana", "apple", "cherry", "banana", "apple"]
+counts = Counter(words)
+# Counter({"apple": 3, "banana": 2, "cherry": 1})
+counts.most_common(2)       # [("apple", 3), ("banana", 2)]
+
+# Default dictionary
+from collections import defaultdict
+grouped = defaultdict(list)
+for name, score in [("Alice", 85), ("Bob", 92), ("Alice", 90)]:
+    grouped[name].append(score)
+# {"Alice": [85, 90], "Bob": [92]}
+
+# Enumerate with start index
+for i, item in enumerate(["a", "b", "c"], start=1):
+    print(f"{i}. {item}")   # 1. a, 2. b, 3. c
+
+# any() and all()
+nums = [2, 4, 6, 8]
+all(x % 2 == 0 for x in nums)   # True (all even)
+any(x > 5 for x in nums)        # True (at least one > 5)
+```
+
+## Virtual Environments & pip
+
+```bash
+# Create a virtual environment
+python -m venv myenv
+
+# Activate it
+myenv\Scripts\activate          # Windows
+source myenv/bin/activate       # Mac/Linux
+
+# Install packages
+pip install requests
+pip install requests==2.28.0    # Specific version
+pip install -r requirements.txt # From file
+
+# Save current packages
+pip freeze > requirements.txt
+
+# Deactivate
+deactivate
+```
