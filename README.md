@@ -1,1 +1,1 @@
-New to coding this helps a lot
+.md Files to help learn what every varible does for different coding languages
