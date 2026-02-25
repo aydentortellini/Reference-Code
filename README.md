@@ -1,1 +1,2 @@
-.md Files to help learn what every varible does for different coding languages
+.md Files to help learn what every command does for different coding languages
+will update in as i learn new laguages
