@@ -1,5 +1,139 @@
 # Java Quick Reference Guide
 
+## Table of Contents
+
+### Tier 1 — Getting Started
+- [Compiling & Running Java](#compiling--running-java)
+- [Basic Structure](#basic-structure)
+- [Comments](#comments)
+- [Output](#output)
+
+### Tier 2 — Core Fundamentals
+- [Variables & Data Types](#variables--data-types)
+- [Operators](#operators)
+- [Type Conversion](#type-conversion)
+- [Input (Scanner)](#input-scanner)
+
+### Tier 3 — Control Flow
+- [Conditionals](#conditionals)
+- [Loops](#loops)
+
+### Tier 4 — Building Blocks
+- [Methods (Functions)](#methods-functions)
+- [Recursion](#recursion)
+- [Arrays](#arrays)
+- [2D Arrays](#2d-arrays)
+
+### Tier 5 — Core Classes
+- [String Methods](#string-methods)
+- [StringBuilder](#stringbuilder-efficient-string-building)
+- [printf Format Specifiers](#printf-format-specifiers)
+- [Math Operations](#math-operations)
+- [Autoboxing & Wrapper Types](#autoboxing--wrapper-types)
+
+### Tier 6 — Collections
+- [ArrayList](#arraylist-dynamic-array)
+- [HashMap](#hashmap-key-value-pairs)
+- [HashSet](#hashset-unique-values)
+
+### Tier 7 — Object-Oriented Programming
+- [OOP: Classes & Objects, Inheritance, Overriding, Abstract, Interfaces](#object-oriented-programming-oop)
+- [Access Modifiers](#access-modifiers)
+- [Static Keyword](#static-keyword)
+- [Final Keyword](#final-keyword)
+- [Packages & Imports](#packages--imports)
+
+### Tier 8 — Intermediate Java
+- [Varargs](#varargs-variable-length-arguments)
+- [Enum Types](#enum-types)
+- [Exception Handling](#exception-handling)
+- [Custom Exceptions](#custom-exceptions)
+- [try-with-resources](#try-with-resources)
+- [Nested & Inner Classes](#nested--inner-classes)
+- [Comparable & Comparator](#comparable--comparator-custom-sorting)
+- [More Collections](#more-collections)
+- [Generics](#generics)
+
+### Tier 9 — Modern Java Features
+- [Lambda Expressions (Java 8+)](#lambda-expressions-java-8)
+- [Method References](#method-references)
+- [Stream API (Java 8+)](#stream-api-java-8)
+- [More Stream API](#more-stream-api)
+- [Optional (Java 8+)](#optional-java-8)
+- [Immutable Collections (Java 9+)](#immutable-collections-java-9)
+- [var Keyword (Java 10+)](#var-keyword-java-10)
+- [Switch Expressions (Java 14+)](#switch-expressions-java-14)
+- [Text Blocks (Java 15+)](#text-blocks-java-15)
+- [Records (Java 16+)](#records-java-16)
+- [Pattern Matching instanceof (Java 16+)](#pattern-matching-instanceof-java-16)
+- [Interface Advanced Features](#interface-advanced-features)
+- [Sealed Classes (Java 17+)](#sealed-classes-java-17)
+
+### Tier 10 — I/O & Concurrency
+- [File I/O](#file-io)
+- [Multithreading Basics](#multithreading-basics)
+- [ExecutorService & CompletableFuture](#executorservice--completablefuture-modern-concurrency)
+
+### Tier 11 — Advanced Patterns & Utilities
+- [Annotations](#annotations)
+- [Useful Utility Classes](#useful-utility-classes)
+- [Common Design Patterns](#common-design-patterns)
+- [More Design Patterns](#more-design-patterns)
+
+### Tier 12 — Reference
+- [Common Errors & Fixes](#common-errors--fixes)
+- [More Error Types](#more-error-types)
+- [Quick Tips](#quick-tips)
+
+---
+
+<!-- ============================================================ -->
+<!-- TIER 1 — GETTING STARTED                                      -->
+<!-- ============================================================ -->
+
+---
+
+## Compiling & Running Java
+
+Java source files (`.java`) must be compiled to bytecode (`.class`) before they can run. The JVM (Java Virtual Machine) then executes the bytecode — this is why Java runs on any platform.
+
+```bash
+# Compile a file
+javac HelloWorld.java        # produces HelloWorld.class
+
+# Run it (no .class extension!)
+java HelloWorld
+
+# Compile and run with a package
+javac com/example/Main.java
+java com.example.Main
+
+# Pass arguments to main(String[] args)
+java HelloWorld Alice 42     # args[0]="Alice", args[1]="42"
+
+# Compile all .java files in current directory
+javac *.java
+```
+
+**What each step does:**
+- `javac` = Java Compiler → turns your `.java` source code into `.class` bytecode
+- `java` = JVM launcher → reads the `.class` file and runs it
+- The class name you pass to `java` must exactly match the `public class` name in the file
+
+**Common first-time errors:**
+```
+error: class HelloWorld is public, should be declared in a file named HelloWorld.java
+→ File name must match the class name exactly (case-sensitive)
+
+Error: Could not find or load main class HelloWorld
+→ You're in the wrong directory, or forgot to compile first
+
+error: ';' expected
+→ Missing semicolon at end of a statement
+```
+
+---
+
 ## Basic Structure
 
 ```java
@@ -10,6 +144,38 @@ public class ClassName {
 }
 ```
 
+---
+
+## Comments
+
+Comments are ignored by the compiler — they're notes for humans reading the code.
+
+```java
+// This is a single-line comment
+
+/*
+ * This is a
+ * multi-line comment
+ */
+
+/**
+ * This is a Javadoc comment — used to generate documentation.
+ * @param name  the person's name
+ * @param age   the person's age
+ * @return      a greeting string
+ */
+public static String greet(String name, int age) {
+    return "Hello " + name + ", age " + age;
+}
+```
+
+**When to comment:**
+- Explain *why* something is done, not *what* (the code shows what)
+- Note non-obvious decisions or workarounds
+- Don't comment obvious things: `i++; // increment i` is noise
+
+---
+
 ## Output
 
 ```java
@@ -17,6 +183,14 @@ System.out.println("text");   // Print with newline
 System.out.print("text");     // Print without newline
 System.out.printf("%s", x);   // Formatted print (like C)
 ```
+
+---
+
+<!-- ============================================================ -->
+<!-- TIER 2 — CORE FUNDAMENTALS                                    -->
+<!-- ============================================================ -->
+
+---
 
 ## Variables & Data Types
 
@@ -54,6 +228,124 @@ System.out.println(max + 1);  // -2147483648 (wraps around!)
 // Field default values (only for class fields, NOT local variables)
 // int -> 0, double -> 0.0, boolean -> false, char -> '\u0000', Object -> null
 ```
+
+---
+
+## Operators
+
+### Arithmetic Operators
+
+```java
+int a = 10, b = 3;
+
+a + b    // Addition:        13
+a - b    // Subtraction:      7
+a * b    // Multiplication:  30
+a / b    // Division:         3  (integer division — truncates!)
+a % b    // Modulo (remainder): 1  (10 = 3*3 + 1)
+
+// Modulo uses:
+// - Check even/odd:    n % 2 == 0
+// - Wrap around:       index % array.length
+// - Last digit:        n % 10
+```
+
+### Assignment Operators
+
+```java
+int x = 10;
+
+x += 5;   // same as x = x + 5  →  15
+x -= 3;   // same as x = x - 3  →  12
+x *= 2;   // same as x = x * 2  →  24
+x /= 4;   // same as x = x / 4  →   6
+x %= 4;   // same as x = x % 4  →   2
+```
+
+### Increment & Decrement
+
+```java
+int n = 5;
+
+n++;      // post-increment: use n (5), THEN add 1 → n becomes 6
+++n;      // pre-increment:  add 1 FIRST, THEN use n → n becomes 7
+
+n--;      // post-decrement: use n (7), THEN subtract 1 → n becomes 6
+--n;      // pre-decrement:  subtract 1 FIRST → n becomes 5
+
+// The difference only matters when used in an expression:
+int a = 5;
+int b = a++;   // b = 5, a = 6  (b gets the OLD value)
+int c = ++a;   // c = 7, a = 7  (c gets the NEW value)
+```
+
+### Operator Precedence (high to low)
+
+```
+()                        // parentheses — always first
+++ --  (unary)  !         // unary operators
+* / %                     // multiply, divide, modulo
++ -                       // add, subtract
+< > <= >=                 // comparison
+== !=                     // equality
+&&                        // logical AND
+||                        // logical OR
+= += -= *= /= %=          // assignment (right to left)
+```
+
+```java
+// Examples:
+2 + 3 * 4        // 14, not 20 (* before +)
+(2 + 3) * 4      // 20 (parentheses first)
+true || false && false   // true (&&  before ||)
+```
+
+---
+
+## Type Conversion
+
+There are two kinds of casting: **widening** (safe, automatic) and **narrowing** (manual, can lose data).
+
+```java
+// String to number — throws NumberFormatException if input is invalid
+int i = Integer.parseInt("123");
+double d = Double.parseDouble("3.14");
+long l = Long.parseLong("9999999999");
+boolean b = Boolean.parseBoolean("true");  // case-insensitive: "True", "TRUE" all work
+
+// Number to String
+String s1 = String.valueOf(123);        // works for any type
+String s2 = Integer.toString(123);      // same result
+String s3 = 123 + "";                   // works but style is debated
+
+// Widening — smaller to larger type, AUTOMATIC (no cast needed)
+int x = 100;
+long xl = x;       // int -> long (automatic)
+double xd = x;     // int -> double (automatic)
+
+// Narrowing — larger to smaller, REQUIRES EXPLICIT CAST (may lose data!)
+double pi = 3.99;
+int truncated = (int) pi;    // 3 — truncates (NOT rounds!) toward zero
+
+long big = 5000000000L;
+int narrowed = (int) big;    // data loss — result is unpredictable
+
+// Safe integer parsing (avoid exceptions with a helper)
+try {
+    int num = Integer.parseInt(userInput);
+} catch (NumberFormatException e) {
+    System.out.println("Not a valid number!");
+}
+
+// Useful number conversions
+Integer.toBinaryString(10)   // "1010"
+Integer.toHexString(255)     // "ff"
+Integer.toOctalString(8)     // "10"
+Integer.parseInt("1010", 2)  // Parse binary string: 10
+Integer.parseInt("ff", 16)   // Parse hex string: 255
+```
+
+---
 
 ## Input (Scanner)
 
@@ -94,44 +386,13 @@ while (sc.hasNextInt()) {
 // sc.hasNext(), sc.hasNextDouble(), sc.hasNextLine() also exist
 ```
 
-## Arrays
+---
 
-Arrays are **fixed-size** and **zero-indexed**. Once created, the size cannot change — use `ArrayList` if you need a resizable collection. Arrays are reference types, so assigning one array to another variable doesn't copy the data.
+<!-- ============================================================ -->
+<!-- TIER 3 — CONTROL FLOW                                         -->
+<!-- ============================================================ -->
 
-```java
-int[] nums = new int[5];              // Create array of size 5, all values default to 0
-int[] nums2 = {1, 2, 3, 4, 5};        // Create and initialize with values
-nums[0] = 10;                         // Set first element (index 0)
-int len = nums.length;                // Get array length (property, not method — no parentheses!)
-```
-
-**Default values after `new`:**
-- `int[]` → all `0`
-- `double[]` → all `0.0`
-- `boolean[]` → all `false`
-- `String[]` → all `null`
-
-**Common operations:**
-```java
-import java.util.Arrays;
-
-int[] arr = {5, 2, 8, 1, 9};
-
-Arrays.sort(arr);                     // Sort in place: [1, 2, 5, 8, 9]
-Arrays.fill(arr, 0);                  // Fill all with 0: [0, 0, 0, 0, 0]
-int[] copy = Arrays.copyOf(arr, 3);   // Copy first 3 elements: [0, 0, 0]
-System.out.println(Arrays.toString(arr)); // Print as string: "[0, 0, 0, 0, 0]"
-Arrays.equals(arr, copy);             // Compare element-by-element: false
-
-// Arrays are passed by reference — the method can modify the original
-void doubleAll(int[] a) {
-    for (int i = 0; i < a.length; i++) a[i] *= 2;
-}
-// After calling doubleAll(arr), arr is modified!
-
-// To copy without sharing: use Arrays.copyOf or clone()
-int[] safeCopy = arr.clone();
-```
+---
 
 ## Conditionals
 
@@ -201,6 +462,8 @@ switch (day) {
 }
 ```
 
+---
+
 ## Loops
 
 ```java
@@ -262,6 +525,14 @@ for (int i = 0; i < 5; i++) {
 }
 ```
 
+---
+
+<!-- ============================================================ -->
+<!-- TIER 4 — BUILDING BLOCKS                                      -->
+<!-- ============================================================ -->
+
+---
+
 ## Methods (Functions)
 
 A method is a reusable block of code. The signature includes the name and parameter types — this is what makes two methods distinct.
@@ -314,6 +585,173 @@ public static void printPositive(int n) {
     System.out.println(n);
 }
 ```
+
+---
+
+## Recursion
+
+A method is **recursive** when it calls itself. Every recursive method needs:
+1. A **base case** — the condition that stops the recursion
+2. A **recursive case** — the call that moves toward the base case
+
+Without a base case, you get infinite recursion → `StackOverflowError`.
+
+```java
+// Classic example: factorial
+// 5! = 5 * 4 * 3 * 2 * 1 = 120
+public static int factorial(int n) {
+    if (n <= 1) return 1;        // base case
+    return n * factorial(n - 1); // recursive case
+}
+
+factorial(5);
+// → 5 * factorial(4)
+//   → 4 * factorial(3)
+//     → 3 * factorial(2)
+//       → 2 * factorial(1)
+//         → 1  (base case!)
+//       ← 2 * 1 = 2
+//     ← 3 * 2 = 6
+//   ← 4 * 6 = 24
+// ← 5 * 24 = 120
+```
+
+```java
+// Fibonacci — f(n) = f(n-1) + f(n-2)
+public static int fibonacci(int n) {
+    if (n <= 1) return n;          // base cases: f(0)=0, f(1)=1
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+fibonacci(6);  // 8  (sequence: 0,1,1,2,3,5,8,...)
+// Note: this naive version is slow for large n — use a loop or memoization instead
+```
+
+```java
+// Sum of array elements using recursion
+public static int sum(int[] arr, int index) {
+    if (index == arr.length) return 0;          // base case: past end
+    return arr[index] + sum(arr, index + 1);    // add current + rest
+}
+
+sum(new int[]{1, 2, 3, 4}, 0);  // 10
+```
+
+```java
+// Countdown — recursion doesn't always need a return value
+public static void countdown(int n) {
+    if (n < 0) return;            // base case
+    System.out.println(n);
+    countdown(n - 1);             // recursive case
+}
+
+countdown(3);  // prints: 3, 2, 1, 0
+```
+
+**When to use recursion:**
+- Tree/graph traversal (natural fit)
+- Divide-and-conquer algorithms (mergesort, binary search)
+- Problems defined in terms of smaller versions of themselves
+- When the iterative version would be much harder to read
+
+**When to prefer a loop:**
+- Simple counting/accumulation (a loop is faster and clearer)
+- Deep recursion (risk of StackOverflow for large inputs)
+- Performance-critical code (each method call has overhead)
+
+---
+
+## Arrays
+
+Arrays are **fixed-size** and **zero-indexed**. Once created, the size cannot change — use `ArrayList` if you need a resizable collection. Arrays are reference types, so assigning one array to another variable doesn't copy the data.
+
+```java
+int[] nums = new int[5];              // Create array of size 5, all values default to 0
+int[] nums2 = {1, 2, 3, 4, 5};        // Create and initialize with values
+nums[0] = 10;                         // Set first element (index 0)
+int len = nums.length;                // Get array length (property, not method — no parentheses!)
+```
+
+**Default values after `new`:**
+- `int[]` → all `0`
+- `double[]` → all `0.0`
+- `boolean[]` → all `false`
+- `String[]` → all `null`
+
+**Common operations:**
+```java
+import java.util.Arrays;
+
+int[] arr = {5, 2, 8, 1, 9};
+
+Arrays.sort(arr);                     // Sort in place: [1, 2, 5, 8, 9]
+Arrays.fill(arr, 0);                  // Fill all with 0: [0, 0, 0, 0, 0]
+int[] copy = Arrays.copyOf(arr, 3);   // Copy first 3 elements: [0, 0, 0]
+System.out.println(Arrays.toString(arr)); // Print as string: "[0, 0, 0, 0, 0]"
+Arrays.equals(arr, copy);             // Compare element-by-element: false
+
+// Arrays are passed by reference — the method can modify the original
+void doubleAll(int[] a) {
+    for (int i = 0; i < a.length; i++) a[i] *= 2;
+}
+// After calling doubleAll(arr), arr is modified!
+
+// To copy without sharing: use Arrays.copyOf or clone()
+int[] safeCopy = arr.clone();
+```
+
+---
+
+## 2D Arrays
+
+```java
+// Declare a 2D array (3 rows, 4 columns)
+int[][] grid = new int[3][4];
+
+// Initialize with values
+int[][] matrix = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+};
+
+// Access elements
+matrix[0][0] = 10;       // First row, first column
+int val = matrix[1][2];  // Second row, third column: 6
+
+// Dimensions
+int rows = matrix.length;         // 3
+int cols = matrix[0].length;      // 3
+
+// Loop through 2D array
+for (int i = 0; i < matrix.length; i++) {
+    for (int j = 0; j < matrix[i].length; j++) {
+        System.out.print(matrix[i][j] + " ");
+    }
+    System.out.println();
+}
+
+// For-each equivalent
+for (int[] row : matrix) {
+    for (int val2 : row) {
+        System.out.print(val2 + " ");
+    }
+}
+
+// Jagged array (rows of different sizes)
+int[][] jagged = new int[3][];
+jagged[0] = new int[2];
+jagged[1] = new int[4];
+jagged[2] = new int[1];
+```
+
+---
+
+<!-- ============================================================ -->
+<!-- TIER 5 — CORE CLASSES                                         -->
+<!-- ============================================================ -->
+
+---
 
 ## String Methods
 
@@ -371,6 +809,79 @@ char[] chars = s.toCharArray();   // ['H','e','l','l','o',' ','W','o','r','l','d
 String back = new String(chars);  // back to String
 ```
 
+---
+
+## StringBuilder (Efficient String Building)
+
+```java
+// String concatenation in a loop is slow — use StringBuilder instead
+StringBuilder sb = new StringBuilder();
+sb.append("Hello");         // Add to end
+sb.append(", ");
+sb.append("World");
+sb.insert(5, "!");          // Insert at index
+sb.delete(5, 6);            // Delete chars from 5 to 6
+sb.reverse();               // Reverse the contents
+sb.replace(0, 5, "Hi");     // Replace range
+sb.length();                // Current length
+sb.charAt(0);               // Get char at index
+String result = sb.toString();  // Convert back to String
+
+// Chaining (each method returns the StringBuilder)
+String s = new StringBuilder()
+    .append("Hello")
+    .append(" ")
+    .append("World")
+    .toString();  // "Hello World"
+
+// String.format and String.join (alternatives)
+String formatted = String.format("Name: %s, Age: %d", "Alice", 25);
+String joined = String.join(", ", "Alice", "Bob", "Charlie");  // "Alice, Bob, Charlie"
+String joined2 = String.join("-", List.of("a", "b", "c"));     // "a-b-c"
+```
+
+---
+
+## printf Format Specifiers
+
+`System.out.printf` (and `String.format`) use format strings with `%` placeholders:
+
+```java
+System.out.printf("Name: %s, Age: %d, Score: %.2f%n", "Alice", 25, 98.5);
+// Output: Name: Alice, Age: 25, Score: 98.50
+```
+
+| Specifier | Type | Example |
+|-----------|------|---------|
+| `%d` | Integer (int, long) | `printf("%d", 42)` → `42` |
+| `%f` | Floating point (double, float) | `printf("%f", 3.14)` → `3.140000` |
+| `%.2f` | Float with 2 decimal places | `printf("%.2f", 3.14159)` → `3.14` |
+| `%s` | String (or any object via toString) | `printf("%s", "hi")` → `hi` |
+| `%c` | Character | `printf("%c", 'A')` → `A` |
+| `%b` | Boolean | `printf("%b", true)` → `true` |
+| `%n` | Newline (platform-independent) | use instead of `\n` in printf |
+| `%10d` | Right-align in 10-char wide field | `printf("%10d", 42)` → `        42` |
+| `%-10d` | Left-align in 10-char wide field | `printf("%-10d", 42)` → `42        ` |
+| `%05d` | Pad with zeros | `printf("%05d", 42)` → `00042` |
+| `%e` | Scientific notation | `printf("%e", 12345.6)` → `1.234560e+04` |
+| `%x` | Hexadecimal | `printf("%x", 255)` → `ff` |
+
+```java
+// Building a table with alignment:
+System.out.printf("%-10s %5s %8s%n", "Name", "Age", "Score");
+System.out.printf("%-10s %5d %8.2f%n", "Alice", 25, 98.5);
+System.out.printf("%-10s %5d %8.2f%n", "Bob", 30, 87.333);
+// Output:
+// Name        Age    Score
+// Alice        25    98.50
+// Bob          30    87.33
+
+// String.format works the same but returns a String instead of printing
+String label = String.format("Item #%03d: $%.2f", 7, 4.5);  // "Item #007: $4.50"
+```
+
+---
+
 ## Math Operations
 
 All `Math` methods are static — call them directly as `Math.methodName()`. Most return `double`.
@@ -417,48 +928,45 @@ Math.pow(2, 10)          // 1024.0 (double, not int!)
 (int) Math.pow(2, 10)    // 1024 (cast needed if you want int)
 ```
 
-## Type Conversion
+---
 
-There are two kinds of casting: **widening** (safe, automatic) and **narrowing** (manual, can lose data).
+## Autoboxing & Wrapper Types
 
 ```java
-// String to number — throws NumberFormatException if input is invalid
-int i = Integer.parseInt("123");
-double d = Double.parseDouble("3.14");
-long l = Long.parseLong("9999999999");
-boolean b = Boolean.parseBoolean("true");  // case-insensitive: "True", "TRUE" all work
+// Each primitive has a wrapper class
+// int -> Integer,  double -> Double,  boolean -> Boolean,
+// char -> Character,  long -> Long,  float -> Float, etc.
 
-// Number to String
-String s1 = String.valueOf(123);        // works for any type
-String s2 = Integer.toString(123);      // same result
-String s3 = 123 + "";                   // works but style is debated
+// Autoboxing: primitive -> wrapper (automatic)
+Integer boxed = 42;           // same as Integer.valueOf(42)
+Double d = 3.14;
 
-// Widening — smaller to larger type, AUTOMATIC (no cast needed)
-int x = 100;
-long xl = x;       // int -> long (automatic)
-double xd = x;     // int -> double (automatic)
+// Unboxing: wrapper -> primitive (automatic)
+int unboxed = boxed;          // same as boxed.intValue()
 
-// Narrowing — larger to smaller, REQUIRES EXPLICIT CAST (may lose data!)
-double pi = 3.99;
-int truncated = (int) pi;    // 3 — truncates (NOT rounds!) toward zero
+// Useful wrapper methods
+Integer.parseInt("123");      // String to int
+Integer.toBinaryString(10);   // "1010"
+Integer.toHexString(255);     // "ff"
+Integer.MAX_VALUE;            // 2147483647
+Integer.MIN_VALUE;            // -2147483648
 
-long big = 5000000000L;
-int narrowed = (int) big;    // data loss — result is unpredictable
+Double.isNaN(0.0 / 0.0);     // true
+Double.isInfinite(1.0 / 0.0);// true
 
-// Safe integer parsing (avoid exceptions with a helper)
-try {
-    int num = Integer.parseInt(userInput);
-} catch (NumberFormatException e) {
-    System.out.println("Not a valid number!");
-}
-
-// Useful number conversions
-Integer.toBinaryString(10)   // "1010"
-Integer.toHexString(255)     // "ff"
-Integer.toOctalString(8)     // "10"
-Integer.parseInt("1010", 2)  // Parse binary string: 10
-Integer.parseInt("ff", 16)   // Parse hex string: 255
+// Collections require wrapper types (not primitives)
+List<Integer> ints = new ArrayList<>();
+ints.add(5);    // autoboxed to Integer
+int x = ints.get(0);  // unboxed to int
 ```
+
+---
+
+<!-- ============================================================ -->
+<!-- TIER 6 — COLLECTIONS                                          -->
+<!-- ============================================================ -->
+
+---
 
 ## ArrayList (Dynamic Array)
 
@@ -512,43 +1020,118 @@ for (int i = 0; i < list.size(); i++) { System.out.println(list.get(i)); }
 | Performance | Slightly faster | More flexible |
 | Sorting built-in | `Arrays.sort()` | `Collections.sort()` |
 
-## Common Errors & Fixes
+---
 
-| Error | Meaning | Common Cause & Fix |
-|-------|---------|---------------------|
-| `NullPointerException` | Calling a method or accessing a field on `null` | Check for null before use; use `Optional`; use `Objects.requireNonNull` to find source |
-| `ArrayIndexOutOfBoundsException` | Accessing index ≥ array length or < 0 | Use `i < arr.length` in loop; check off-by-one errors |
-| `StringIndexOutOfBoundsException` | Same but for String index | Ensure index < s.length() |
-| `cannot find symbol` | Variable/method doesn't exist or wrong scope | Typo? Wrong class? Forgot import? Not declared in this scope? |
-| `incompatible types` | Assigning wrong type | Add cast `(int) x` for narrowing; use correct type |
-| `missing return statement` | Non-void method doesn't always return | Ensure every code path returns a value (even inside if/else) |
-| `unreachable statement` | Code after `return` / `break` that can never run | Remove dead code |
-| `variable might not have been initialized` | Local variable used before assignment | Assign a default value when declaring |
-| `non-static method cannot be referenced from a static context` | Calling instance method from `main` or static method | Create an object first, or make the method static |
-| `reached end of file while parsing` | Missing closing `}` | Count braces; use IDE auto-format |
+## HashMap (Key-Value Pairs)
 
-## Quick Tips
+A `HashMap` maps keys to values. Keys must be unique — putting a value for an existing key **overwrites** the old value. `HashMap` does NOT guarantee any order. Keys are found using `hashCode()` and `equals()`, so those must be correctly implemented for custom key types.
 
-**Naming conventions:**
-- Classes & Interfaces: `PascalCase` → `MyClass`, `Runnable`
-- Variables & Methods: `camelCase` → `myVariable`, `getCount()`
-- Constants (`static final`): `ALL_CAPS` → `MAX_SIZE`, `PI`
-- Packages: `all.lowercase` → `com.example.app`
+```java
+import java.util.HashMap;
+import java.util.Map;
 
-**Common gotchas:**
-- Use `equals()` to compare Strings, not `==` (which compares references)
-- Arrays start at index **0** — last element is `arr[arr.length - 1]`
-- `length` for arrays (property), `length()` for Strings (method), `size()` for ArrayList (method)
-- `int / int` = integer division — use `(double)` cast or `1.0 *` to get decimal result
-- Scanner's `nextInt()` leaves a newline in the buffer — call `nextLine()` after to consume it
-- `for (x : list)` loop — don't call `list.remove()` inside, use `removeIf()` or an Iterator
-- `ArrayList<int>` doesn't work — use `ArrayList<Integer>` (primitives need wrapper types)
-- `Math.random()` returns `[0.0, 1.0)` — multiply and cast for a range: `(int)(Math.random() * 6) + 1`
-- `switch` without `break` falls through to the next case — modern arrow syntax avoids this
+HashMap<String, Integer> scores = new HashMap<>();
+scores.put("Alice", 95);            // Add or overwrite entry
+scores.put("Bob", 87);
+scores.put("Alice", 100);           // Overwrites Alice's previous value!
+
+scores.get("Alice");                // Get value: 100 (null if key missing)
+scores.getOrDefault("Eve", 0);      // Get or default if missing: 0
+scores.containsKey("Bob");          // Check key exists: true
+scores.containsValue(87);           // Check value exists: true (slower — O(n))
+scores.remove("Bob");               // Remove entry, returns old value
+scores.size();                      // Number of entries: 1 (only Alice left)
+scores.keySet();                    // Set<String> of all keys
+scores.values();                    // Collection<Integer> of all values
+scores.isEmpty();                   // true if no entries
+```
+
+**Iterating — prefer `entrySet` for efficiency:**
+```java
+// entrySet — most efficient, gives key and value together
+for (Map.Entry<String, Integer> entry : scores.entrySet()) {
+    System.out.println(entry.getKey() + ": " + entry.getValue());
+}
+
+// keySet — simpler but calls get() for each key (slightly slower)
+for (String key : scores.keySet()) {
+    System.out.println(key + ": " + scores.get(key));
+}
+
+// forEach with lambda (Java 8+)
+scores.forEach((key, val) -> System.out.println(key + "=" + val));
+```
+
+**Useful operations:**
+```java
+// putIfAbsent — only adds if key not already present
+scores.putIfAbsent("Charlie", 70);
+
+// computeIfAbsent — add and compute value if missing (great for counting)
+HashMap<String, Integer> wordCount = new HashMap<>();
+String[] words = {"apple", "banana", "apple"};
+for (String w : words) {
+    wordCount.put(w, wordCount.getOrDefault(w, 0) + 1);
+}
+// wordCount = {apple=2, banana=1}
+
+// merge — combine value if key exists
+wordCount.merge("apple", 1, Integer::sum);  // adds 1 to apple's count
+```
 
 ---
 
-# Advanced Java Concepts
+## HashSet (Unique Values)
+
+`HashSet` stores unique elements with no guaranteed order. Internally it's a `HashMap` where the element is the key. It uses `hashCode()` and `equals()` to determine uniqueness — for custom objects, override both.
+
+```java
+import java.util.HashSet;
+
+HashSet<String> names = new HashSet<>();
+names.add("Alice");         // returns true (added)
+names.add("Bob");
+names.add("Alice");         // returns false (duplicate — ignored)
+names.size();               // 2
+names.contains("Bob");      // O(1) average — very fast!
+names.remove("Bob");        // returns true if removed
+names.isEmpty();            // false
+
+// Iterating (order is not guaranteed!)
+for (String name : names) {
+    System.out.println(name);
+}
+```
+
+**Set operations (useful for math-style set logic):**
+```java
+HashSet<Integer> setA = new HashSet<>(Arrays.asList(1, 2, 3, 4));
+HashSet<Integer> setB = new HashSet<>(Arrays.asList(3, 4, 5, 6));
+
+// Union — all elements from both
+HashSet<Integer> union = new HashSet<>(setA);
+union.addAll(setB);           // [1, 2, 3, 4, 5, 6]
+
+// Intersection — only elements in both
+HashSet<Integer> intersection = new HashSet<>(setA);
+intersection.retainAll(setB); // [3, 4]
+
+// Difference — in setA but not setB
+HashSet<Integer> difference = new HashSet<>(setA);
+difference.removeAll(setB);   // [1, 2]
+
+// Common use case — removing duplicates from a list
+List<Integer> withDupes = Arrays.asList(1, 2, 2, 3, 3, 3);
+Set<Integer> unique = new HashSet<>(withDupes);  // {1, 2, 3}
+```
+
+---
+
+<!-- ============================================================ -->
+<!-- TIER 7 — OBJECT-ORIENTED PROGRAMMING                         -->
+<!-- ============================================================ -->
+
+---
 
 ## Object-Oriented Programming (OOP)
 
@@ -786,6 +1369,8 @@ public interface Config {
 }
 ```
 
+---
+
 ## Access Modifiers
 
 Access modifiers control **visibility** — who can see and use a field, method, or class.
@@ -809,6 +1394,8 @@ protected   // Accessible within same package AND subclasses (even different pac
 - Make methods `public` only if they're part of the class's intended interface
 - Use `protected` for methods meant to be used or overridden by subclasses
 - Prefer the most restrictive modifier that works — it keeps code flexible to change
+
+---
 
 ## Static Keyword
 
@@ -854,6 +1441,8 @@ System.out.println(Counter.PI);
 // Avoid: making everything static just to avoid passing objects around
 ```
 
+---
+
 ## Final Keyword
 
 `final` means "cannot be changed after initial assignment." It applies to variables, methods, and classes, each with different effects.
@@ -890,6 +1479,162 @@ public final class Integer { }
 // - Immutable fields that shouldn't change after construction
 // - Methods that are security-critical and shouldn't be overridden
 ```
+
+---
+
+## Packages & Imports
+
+A **package** is a namespace — it groups related classes together and prevents name conflicts. Package names follow the folder structure.
+
+```java
+// Declaring your package (must be the FIRST non-comment line in the file)
+package com.myapp.utils;
+
+// File must be at:  src/com/myapp/utils/MyClass.java
+public class MyClass { }
+```
+
+**Importing classes:**
+```java
+// Import a specific class
+import java.util.ArrayList;
+import java.util.HashMap;
+
+// Import all classes in a package (wildcard — avoids long import lists)
+import java.util.*;              // imports everything in java.util
+
+// Static import — lets you use static methods/fields without the class name
+import static java.lang.Math.PI;
+import static java.lang.Math.sqrt;
+
+// Now you can write:
+double r = sqrt(PI * 4);        // instead of Math.sqrt(Math.PI * 4)
+```
+
+**Built-in packages you'll use often:**
+
+| Package | Contains |
+|---------|----------|
+| `java.lang` | `String`, `Math`, `Integer`, `System` — **auto-imported, no import needed** |
+| `java.util` | `ArrayList`, `HashMap`, `Scanner`, `Arrays`, `Collections` |
+| `java.io` | `File`, `FileReader`, `BufferedReader`, `PrintWriter` |
+| `java.nio.file` | `Files`, `Path`, `Paths` (modern file I/O) |
+| `java.util.stream` | `Stream`, `Collectors` (Stream API) |
+| `java.util.function` | `Function`, `Predicate`, `Consumer`, `Supplier` |
+
+```java
+// You never need to import java.lang — it's automatic
+// So String, Math, Integer, System just work without any import
+
+// Everything else needs an import:
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+    }
+}
+```
+
+**Tip:** In most IDEs (IntelliJ, VS Code), pressing `Alt+Enter` on an unknown class automatically adds the correct import.
+
+---
+
+<!-- ============================================================ -->
+<!-- TIER 8 — INTERMEDIATE JAVA                                    -->
+<!-- ============================================================ -->
+
+---
+
+## Varargs (Variable-Length Arguments)
+
+```java
+// Accept any number of arguments of the same type
+public static int sum(int... numbers) {
+    int total = 0;
+    for (int n : numbers) {
+        total += n;
+    }
+    return total;
+}
+
+sum(1, 2, 3);          // 6
+sum(10, 20);           // 30
+sum();                 // 0
+
+// Varargs must be the last parameter
+public static void log(String label, int... values) {
+    System.out.print(label + ": ");
+    for (int v : values) System.out.print(v + " ");
+}
+
+log("scores", 90, 85, 78);  // scores: 90 85 78
+
+// Internally treated as an array
+public static void printAll(String... items) {
+    System.out.println(items.length);  // works like array
+}
+```
+
+---
+
+## Enum Types
+
+An `enum` defines a fixed set of named constants. Enums are full classes in Java — they can have fields, constructors, and methods. They're type-safe (unlike using plain `int` or `String` constants) and work great with `switch`.
+
+```java
+public enum Day {
+    MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
+}
+
+Day today = Day.MONDAY;
+System.out.println(today);           // "MONDAY"
+System.out.println(today.name());    // "MONDAY" (same as toString)
+System.out.println(today.ordinal()); // 0 (index in declaration order)
+
+// Enum built-in methods
+Day[] days = Day.values();           // All values as array
+Day d = Day.valueOf("FRIDAY");       // Parse string to enum (throws if invalid)
+
+// Enum with fields and methods
+public enum Planet {
+    MERCURY(3.303e+23, 2.4397e6),
+    VENUS(4.869e+24, 6.0518e6),
+    EARTH(5.976e+24, 6.37814e6);
+
+    private final double mass;    // kg
+    private final double radius;  // meters
+
+    Planet(double mass, double radius) {
+        this.mass = mass;
+        this.radius = radius;
+    }
+
+    double surfaceGravity() {
+        final double G = 6.67300E-11;
+        return G * mass / (radius * radius);
+    }
+}
+
+Planet.EARTH.surfaceGravity();  // 9.80...
+
+// Enum in switch (best use case for enums)
+switch (today) {
+    case MONDAY -> System.out.println("Start of week");
+    case FRIDAY -> System.out.println("Almost weekend!");
+    case SATURDAY, SUNDAY -> System.out.println("Weekend!");
+    default -> System.out.println("Midweek");
+}
+
+// EnumSet and EnumMap — efficient collections for enums
+import java.util.*;
+EnumSet<Day> weekend = EnumSet.of(Day.SATURDAY, Day.SUNDAY);
+EnumSet<Day> weekdays = EnumSet.complementOf(weekend);
+EnumMap<Day, String> schedule = new EnumMap<>(Day.class);
+schedule.put(Day.MONDAY, "Meeting");
+```
+
+---
 
 ## Exception Handling
 
@@ -948,1047 +1693,6 @@ try {
     System.out.println("Logging: " + e.getMessage());
     throw e;   // re-throw the same exception
 }
-```
-
-## HashMap (Key-Value Pairs)
-
-A `HashMap` maps keys to values. Keys must be unique — putting a value for an existing key **overwrites** the old value. `HashMap` does NOT guarantee any order. Keys are found using `hashCode()` and `equals()`, so those must be correctly implemented for custom key types.
-
-```java
-import java.util.HashMap;
-import java.util.Map;
-
-HashMap<String, Integer> scores = new HashMap<>();
-scores.put("Alice", 95);            // Add or overwrite entry
-scores.put("Bob", 87);
-scores.put("Alice", 100);           // Overwrites Alice's previous value!
-
-scores.get("Alice");                // Get value: 100 (null if key missing)
-scores.getOrDefault("Eve", 0);      // Get or default if missing: 0
-scores.containsKey("Bob");          // Check key exists: true
-scores.containsValue(87);           // Check value exists: true (slower — O(n))
-scores.remove("Bob");               // Remove entry, returns old value
-scores.size();                      // Number of entries: 1 (only Alice left)
-scores.keySet();                    // Set<String> of all keys
-scores.values();                    // Collection<Integer> of all values
-scores.isEmpty();                   // true if no entries
-```
-
-**Iterating — prefer `entrySet` for efficiency:**
-```java
-// entrySet — most efficient, gives key and value together
-for (Map.Entry<String, Integer> entry : scores.entrySet()) {
-    System.out.println(entry.getKey() + ": " + entry.getValue());
-}
-
-// keySet — simpler but calls get() for each key (slightly slower)
-for (String key : scores.keySet()) {
-    System.out.println(key + ": " + scores.get(key));
-}
-
-// forEach with lambda (Java 8+)
-scores.forEach((key, val) -> System.out.println(key + "=" + val));
-```
-
-**Useful operations:**
-```java
-// putIfAbsent — only adds if key not already present
-scores.putIfAbsent("Charlie", 70);
-
-// computeIfAbsent — add and compute value if missing (great for counting)
-HashMap<String, Integer> wordCount = new HashMap<>();
-String[] words = {"apple", "banana", "apple"};
-for (String w : words) {
-    wordCount.put(w, wordCount.getOrDefault(w, 0) + 1);
-}
-// wordCount = {apple=2, banana=1}
-
-// merge — combine value if key exists
-wordCount.merge("apple", 1, Integer::sum);  // adds 1 to apple's count
-```
-
-## HashSet (Unique Values)
-
-`HashSet` stores unique elements with no guaranteed order. Internally it's a `HashMap` where the element is the key. It uses `hashCode()` and `equals()` to determine uniqueness — for custom objects, override both.
-
-```java
-import java.util.HashSet;
-
-HashSet<String> names = new HashSet<>();
-names.add("Alice");         // returns true (added)
-names.add("Bob");
-names.add("Alice");         // returns false (duplicate — ignored)
-names.size();               // 2
-names.contains("Bob");      // O(1) average — very fast!
-names.remove("Bob");        // returns true if removed
-names.isEmpty();            // false
-
-// Iterating (order is not guaranteed!)
-for (String name : names) {
-    System.out.println(name);
-}
-```
-
-**Set operations (useful for math-style set logic):**
-```java
-HashSet<Integer> setA = new HashSet<>(Arrays.asList(1, 2, 3, 4));
-HashSet<Integer> setB = new HashSet<>(Arrays.asList(3, 4, 5, 6));
-
-// Union — all elements from both
-HashSet<Integer> union = new HashSet<>(setA);
-union.addAll(setB);           // [1, 2, 3, 4, 5, 6]
-
-// Intersection — only elements in both
-HashSet<Integer> intersection = new HashSet<>(setA);
-intersection.retainAll(setB); // [3, 4]
-
-// Difference — in setA but not setB
-HashSet<Integer> difference = new HashSet<>(setA);
-difference.removeAll(setB);   // [1, 2]
-
-// Common use case — removing duplicates from a list
-List<Integer> withDupes = Arrays.asList(1, 2, 2, 3, 3, 3);
-Set<Integer> unique = new HashSet<>(withDupes);  // {1, 2, 3}
-```
-
-## Generics
-
-Generics let you write type-safe code that works with any type, without casting. The type parameter (`<T>`) is a placeholder replaced at compile time with a real type. This eliminates `ClassCastException` and removes the need for ugly casts.
-
-```java
-// Generic class — T is replaced by a real type when you use the class
-public class Box<T> {
-    private T content;
-
-    public void set(T content) { this.content = content; }
-    public T get() { return content; }
-}
-
-Box<String> stringBox = new Box<>();
-stringBox.set("Hello");
-String s = stringBox.get();  // no cast needed!
-
-Box<Integer> intBox = new Box<>();
-intBox.set(123);
-
-// Generic method — type is inferred from the argument
-public static <T> void printArray(T[] array) {
-    for (T element : array) {
-        System.out.println(element);
-    }
-}
-printArray(new String[]{"a", "b"});   // T inferred as String
-printArray(new Integer[]{1, 2, 3});   // T inferred as Integer
-```
-
-**Bounded type parameters — restrict what types are allowed:**
-```java
-// T must be a Number or subclass (Integer, Double, Long, etc.)
-public static <T extends Number> double sum(T[] arr) {
-    double total = 0;
-    for (T t : arr) total += t.doubleValue();
-    return total;
-}
-
-// Multiple bounds
-public static <T extends Comparable<T> & Cloneable> T findMax(T[] arr) {
-    T max = arr[0];
-    for (T t : arr) if (t.compareTo(max) > 0) max = t;
-    return max;
-}
-```
-
-**Wildcards — for flexible method parameters:**
-```java
-// ? extends T — read-only (upper bound) — "some subtype of Number"
-public static double total(List<? extends Number> list) {
-    double sum = 0;
-    for (Number n : list) sum += n.doubleValue();
-    return sum;
-}
-total(List.of(1, 2, 3));       // works with List<Integer>
-total(List.of(1.1, 2.2));      // works with List<Double>
-
-// ? super T — write-only (lower bound) — "some supertype of Integer"
-public static void addNumbers(List<? super Integer> list) {
-    list.add(1);
-    list.add(2);
-}
-```
-
-## Lambda Expressions (Java 8+)
-
-A lambda is a concise way to write a **functional interface** implementation — an interface with exactly one abstract method. The lambda body IS that method's implementation. Lambdas make code shorter and more readable, especially when working with streams, sorting, and event handling.
-
-```java
-// Old way — anonymous class (verbose)
-Runnable r1 = new Runnable() {
-    @Override
-    public void run() { System.out.println("Running"); }
-};
-
-// Lambda — concise equivalent
-Runnable r2 = () -> System.out.println("Running");
-// ()  = parameters (none here)
-// ->  = "arrow" separating params from body
-// ... = body (expression or {} block)
-
-// Multi-line lambda body
-Runnable r3 = () -> {
-    System.out.println("Step 1");
-    System.out.println("Step 2");
-};
-
-// Lambda with parameters
-Comparator<String> byLength = (a, b) -> a.length() - b.length();
-List<String> names = Arrays.asList("Charlie", "Alice", "Bob");
-names.sort(byLength);  // [Bob, Alice, Charlie]
-```
-
-**Built-in functional interfaces** (`java.util.function`):
-```java
-// Consumer<T>     — takes T, returns nothing
-Consumer<String> printer = s -> System.out.println(s);
-printer.accept("Hello");
-
-// Predicate<T>    — takes T, returns boolean (used in filter)
-Predicate<Integer> isEven = n -> n % 2 == 0;
-isEven.test(4);    // true
-isEven.test(3);    // false
-
-// Combining predicates
-Predicate<Integer> isPositive = n -> n > 0;
-Predicate<Integer> isEvenAndPositive = isEven.and(isPositive);
-Predicate<Integer> isEvenOrNegative = isEven.or(isPositive.negate());
-
-// Function<T, R>  — takes T, returns R (used in map)
-Function<String, Integer> length = s -> s.length();
-length.apply("Hello");  // 5
-
-// Chaining functions
-Function<Integer, Integer> doubleIt = x -> x * 2;
-Function<Integer, String> toStr = x -> "Value: " + x;
-Function<Integer, String> combined = doubleIt.andThen(toStr);
-combined.apply(5);  // "Value: 10"
-
-// Supplier<T>     — takes nothing, returns T
-Supplier<Double> random = () -> Math.random();
-random.get();
-
-// BiFunction<T, U, R> — takes two params, returns R
-BiFunction<String, Integer, String> repeat = (s, n) -> s.repeat(n);
-repeat.apply("ha", 3);  // "hahaha"
-```
-
-## Stream API (Java 8+)
-
-A `Stream` is a pipeline of operations applied to a sequence of elements. Streams are **lazy** — intermediate operations (filter, map, sorted) don't run until a **terminal operation** (collect, forEach, reduce) is called. Streams do NOT modify the original collection.
-
-Three phases: **source → intermediate operations → terminal operation**
-
-```java
-import java.util.stream.*;
-import java.util.Arrays;
-import java.util.List;
-
-List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-
-// filter — keep elements that match the predicate (intermediate)
-List<Integer> evens = numbers.stream()
-    .filter(n -> n % 2 == 0)
-    .collect(Collectors.toList());  // [2, 4, 6, 8, 10]
-
-// map — transform each element to something else (intermediate)
-List<Integer> doubled = numbers.stream()
-    .map(n -> n * 2)
-    .collect(Collectors.toList());  // [2, 4, 6, 8, ...]
-
-// map to a different type
-List<String> strs = numbers.stream()
-    .map(n -> "num" + n)
-    .collect(Collectors.toList());  // ["num1", "num2", ...]
-
-// reduce — combine all elements into a single value (terminal)
-int sum = numbers.stream()
-    .reduce(0, (a, b) -> a + b);    // 55  (0 is the identity/starting value)
-
-// Chaining operations — the power of streams
-int result = numbers.stream()
-    .filter(n -> n > 5)             // [6, 7, 8, 9, 10]
-    .map(n -> n * 2)                // [12, 14, 16, 18, 20]
-    .reduce(0, Integer::sum);       // 80
-
-// Terminal operations
-numbers.stream().count();                      // 10
-numbers.stream().min(Integer::compare);        // Optional[1]
-numbers.stream().max(Integer::compare);        // Optional[10]
-numbers.stream().sum();                        // only for IntStream/LongStream/DoubleStream
-numbers.stream().findFirst();                  // Optional[1]
-numbers.stream().anyMatch(n -> n > 5);         // true (stops at first match)
-numbers.stream().allMatch(n -> n > 0);         // true (must check all)
-numbers.stream().noneMatch(n -> n > 100);      // true
-numbers.stream().forEach(System.out::println); // print each (no return value)
-
-// Intermediate operations
-numbers.stream().sorted();                     // natural order (new sorted stream)
-numbers.stream().sorted(Comparator.reverseOrder()); // reverse order
-numbers.stream().distinct();                   // remove duplicates
-numbers.stream().limit(5);                     // take first 5: [1,2,3,4,5]
-numbers.stream().skip(3);                      // skip first 3: [4,5,...,10]
-numbers.stream().peek(n -> System.out.println("Processing: " + n)); // debug without consuming
-
-// Primitive streams — avoid autoboxing overhead
-int sumDirect = numbers.stream()
-    .mapToInt(Integer::intValue)   // IntStream
-    .sum();                         // built-in sum, no reduce needed
-
-IntStream.range(0, 5)              // 0, 1, 2, 3, 4 (exclusive end)
-IntStream.rangeClosed(1, 5)        // 1, 2, 3, 4, 5 (inclusive end)
-```
-
-## File I/O
-
-Java's `java.nio.file` package (NIO.2, Java 7+) is the modern API. Prefer it over the older `java.io` classes. **Always use try-with-resources** when working with streams and readers to guarantee files are closed.
-
-```java
-import java.io.*;
-import java.nio.file.*;
-import java.util.List;
-
-Path path = Path.of("file.txt");   // Represents a file path (doesn't need to exist yet)
-
-// Reading — modern NIO.2 (best for small/medium files)
-String content = Files.readString(path);               // Entire file as one String (Java 11+)
-List<String> lines = Files.readAllLines(path);         // One String per line
-byte[] bytes = Files.readAllBytes(path);               // Raw bytes
-
-// Writing — modern NIO.2
-Files.writeString(path, "Hello World");                // Write String (overwrites)
-Files.writeString(path, "More", StandardOpenOption.APPEND); // Append instead
-Files.write(path, lines);                              // Write list of lines
-
-// Checking and managing files/directories
-Files.exists(path);              // true if file exists
-Files.isDirectory(path);         // true if it's a directory
-Files.size(path);                // file size in bytes
-Files.delete(path);              // delete (throws if not found)
-Files.deleteIfExists(path);      // delete if exists (no exception if missing)
-Files.copy(path, Path.of("copy.txt"));   // copy file
-Files.move(path, Path.of("new.txt"));    // move/rename file
-Files.createDirectory(Path.of("myDir")); // create a directory
-Files.createDirectories(Path.of("a/b/c")); // create nested dirs
-
-// Listing files in a directory
-Files.list(Path.of("."))                          // Stream<Path> of directory contents
-    .filter(p -> p.toString().endsWith(".java"))
-    .forEach(System.out::println);
-
-// Streaming large files line by line (efficient — doesn't load everything at once)
-try (var stream = Files.lines(path)) {
-    stream.filter(line -> !line.isBlank())
-          .forEach(System.out::println);
-}
-
-// Traditional BufferedReader (still useful, slightly faster for large files)
-try (BufferedReader reader = new BufferedReader(new FileReader("file.txt"))) {
-    String line;
-    while ((line = reader.readLine()) != null) {
-        System.out.println(line);
-    }
-}  // reader closed automatically
-
-// Traditional PrintWriter (fine for writing)
-try (PrintWriter writer = new PrintWriter(new FileWriter("file.txt", true))) {
-    // true = append mode
-    writer.println("Hello World");
-    writer.printf("Value: %d%n", 42);
-}
-```
-
-## Multithreading Basics
-
-A **thread** is an independent path of execution. The JVM runs multiple threads concurrently. The `main` method itself runs on the main thread. Use threads to do work in parallel (e.g., background tasks while the UI stays responsive).
-
-```java
-// Method 1: Extend Thread (less flexible — can't extend anything else)
-class MyThread extends Thread {
-    @Override
-    public void run() {
-        System.out.println("Thread running on: " + Thread.currentThread().getName());
-    }
-}
-MyThread t = new MyThread();
-t.start();   // starts a new thread — do NOT call run() directly (that runs on current thread)
-
-// Method 2: Implement Runnable (preferred — separates task from threading)
-class MyRunnable implements Runnable {
-    @Override
-    public void run() { System.out.println("Runnable running"); }
-}
-Thread t2 = new Thread(new MyRunnable());
-t2.start();
-
-// Method 3: Lambda (cleanest for simple tasks)
-Thread t3 = new Thread(() -> System.out.println("Lambda thread running"));
-t3.start();
-
-// Useful thread methods
-Thread.sleep(1000);         // Pause current thread for 1000ms (throws InterruptedException)
-t.join();                   // Current thread waits until t finishes
-t.join(500);                // Wait at most 500ms
-t.isAlive();                // true if thread hasn't finished
-Thread.currentThread();     // Reference to the currently running thread
-t.setName("worker-1");      // Give the thread a readable name (helpful for debugging)
-```
-
-**The race condition problem:**
-```java
-// UNSAFE — two threads modifying same variable simultaneously
-class Counter {
-    int count = 0;
-    void increment() { count++; }  // NOT atomic! (read, add, write = 3 steps)
-}
-
-// FIX 1: synchronized — only one thread can enter at a time
-class SafeCounter {
-    private int count = 0;
-    public synchronized void increment() { count++; }
-    public synchronized int getCount() { return count; }
-}
-
-// FIX 2: AtomicInteger — lock-free, fast
-import java.util.concurrent.atomic.AtomicInteger;
-AtomicInteger atomicCount = new AtomicInteger(0);
-atomicCount.incrementAndGet();  // thread-safe increment
-atomicCount.get();              // read current value
-```
-
-## Enum Types
-
-An `enum` defines a fixed set of named constants. Enums are full classes in Java — they can have fields, constructors, and methods. They're type-safe (unlike using plain `int` or `String` constants) and work great with `switch`.
-
-```java
-public enum Day {
-    MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
-}
-
-Day today = Day.MONDAY;
-System.out.println(today);           // "MONDAY"
-System.out.println(today.name());    // "MONDAY" (same as toString)
-System.out.println(today.ordinal()); // 0 (index in declaration order)
-
-// Enum built-in methods
-Day[] days = Day.values();           // All values as array
-Day d = Day.valueOf("FRIDAY");       // Parse string to enum (throws if invalid)
-
-// Enum with fields and methods
-public enum Planet {
-    MERCURY(3.303e+23, 2.4397e6),
-    VENUS(4.869e+24, 6.0518e6),
-    EARTH(5.976e+24, 6.37814e6);
-
-    private final double mass;    // kg
-    private final double radius;  // meters
-
-    Planet(double mass, double radius) {
-        this.mass = mass;
-        this.radius = radius;
-    }
-
-    double surfaceGravity() {
-        final double G = 6.67300E-11;
-        return G * mass / (radius * radius);
-    }
-}
-
-Planet.EARTH.surfaceGravity();  // 9.80...
-
-// Enum in switch (best use case for enums)
-switch (today) {
-    case MONDAY -> System.out.println("Start of week");
-    case FRIDAY -> System.out.println("Almost weekend!");
-    case SATURDAY, SUNDAY -> System.out.println("Weekend!");
-    default -> System.out.println("Midweek");
-}
-
-// EnumSet and EnumMap — efficient collections for enums
-import java.util.*;
-EnumSet<Day> weekend = EnumSet.of(Day.SATURDAY, Day.SUNDAY);
-EnumSet<Day> weekdays = EnumSet.complementOf(weekend);
-EnumMap<Day, String> schedule = new EnumMap<>(Day.class);
-schedule.put(Day.MONDAY, "Meeting");
-```
-
-## Optional (Java 8+)
-
-`Optional<T>` is a container that either holds a value or is empty. It forces you to explicitly handle the "no value" case instead of silently returning `null` and risking `NullPointerException`. Use `Optional` as a **return type** when a method might not find a result — don't use it for fields or parameters.
-
-```java
-import java.util.Optional;
-
-// Creating Optional values
-Optional<String> name = Optional.of("Alice");         // must be non-null (throws if null)
-Optional<String> empty = Optional.empty();            // explicitly empty
-Optional<String> nullable = Optional.ofNullable(possiblyNull);  // null -> empty
-
-// Checking and getting the value
-name.isPresent();                      // true (value exists)
-name.isEmpty();                        // false (Java 11+)
-name.get();                            // "Alice" — throws NoSuchElementException if empty!
-
-// Safe alternatives to get() — prefer these:
-name.orElse("Default");                // return value or a default
-name.orElseGet(() -> computeDefault()); // return value or lazily compute a default
-name.orElseThrow(() -> new RuntimeException("No name!")); // throw custom exception if empty
-
-// Performing actions
-name.ifPresent(n -> System.out.println(n));           // only runs if present
-name.ifPresentOrElse(                                  // Java 9+
-    n -> System.out.println("Found: " + n),
-    () -> System.out.println("Not found")
-);
-
-// Transforming — Optional chains work like streams
-Optional<Integer> nameLength = name
-    .filter(n -> n.length() > 3)        // empty if name too short
-    .map(String::length);               // transform to length
-
-nameLength.orElse(0);   // 5
-
-// Real-world example — searching a list
-Optional<String> found = names.stream()
-    .filter(n -> n.startsWith("A"))
-    .findFirst();
-
-found.ifPresent(System.out::println);
-String result = found.orElse("None found");
-```
-
-## Records (Java 16+)
-
-A `record` is a compact, immutable data class. Java auto-generates the constructor, getters (named after the fields), `equals()`, `hashCode()`, and `toString()`. Records are **immutable** — fields are `final` and there are no setters.
-
-```java
-// Compact way to create immutable data classes
-public record Person(String name, int age) { }
-
-// Equivalent to a class with:
-// - private final String name; private final int age;
-// - public Person(String name, int age) { this.name = name; this.age = age; }
-// - public String name() { return name; }   // NOTE: no "get" prefix!
-// - public int age() { return age; }
-// - equals(), hashCode(), toString() all auto-generated
-
-Person p = new Person("Alice", 25);
-p.name();    // "Alice"
-p.age();     // 25
-System.out.println(p);  // Person[name=Alice, age=25]
-
-// Records can have custom methods
-public record Point(double x, double y) {
-    // Compact canonical constructor — for validation
-    public Point {
-        if (x < 0 || y < 0) throw new IllegalArgumentException("Negative coordinates");
-    }
-
-    // Custom method
-    public double distanceTo(Point other) {
-        return Math.sqrt(Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2));
-    }
-
-    // Static factory method
-    public static Point origin() { return new Point(0, 0); }
-}
-
-// Records are great for:
-// - DTOs (Data Transfer Objects)
-// - Returning multiple values from a method
-// - Map keys (equals/hashCode are value-based)
-// - Pattern matching targets with sealed interfaces
-
-// Records implement equals by value (not reference)
-Person a = new Person("Alice", 25);
-Person b = new Person("Alice", 25);
-a.equals(b);  // true (compares field values)
-a == b;       // false (different objects)
-```
-
-## Switch Expressions (Java 14+)
-
-```java
-// Modern switch with arrow syntax
-String result = switch (day) {
-    case MONDAY, FRIDAY -> "Work day";
-    case SATURDAY, SUNDAY -> "Weekend";
-    default -> "Midweek";
-};
-
-// With code blocks
-int numLetters = switch (day) {
-    case MONDAY, FRIDAY, SUNDAY -> 6;
-    case TUESDAY -> 7;
-    default -> {
-        String s = day.toString();
-        yield s.length();  // yield instead of return
-    }
-};
-```
-
-## Common Design Patterns
-
-### Singleton
-
-```java
-public class Database {
-    private static Database instance;
-
-    private Database() { }  // Private constructor
-
-    public static Database getInstance() {
-        if (instance == null) {
-            instance = new Database();
-        }
-        return instance;
-    }
-}
-```
-
-### Builder Pattern
-
-```java
-public class Pizza {
-    private String size;
-    private boolean cheese;
-    private boolean pepperoni;
-
-    private Pizza(Builder builder) {
-        this.size = builder.size;
-        this.cheese = builder.cheese;
-        this.pepperoni = builder.pepperoni;
-    }
-
-    public static class Builder {
-        private String size;
-        private boolean cheese = false;
-        private boolean pepperoni = false;
-
-        public Builder(String size) {
-            this.size = size;
-        }
-
-        public Builder cheese() {
-            this.cheese = true;
-            return this;
-        }
-
-        public Builder pepperoni() {
-            this.pepperoni = true;
-            return this;
-        }
-
-        public Pizza build() {
-            return new Pizza(this);
-        }
-    }
-}
-
-// Usage
-Pizza pizza = new Pizza.Builder("Large")
-    .cheese()
-    .pepperoni()
-    .build();
-```
-
-## Annotations
-
-Annotations are metadata attached to code elements (classes, methods, fields). They don't change behavior by themselves — but tools, frameworks, and the compiler can read and act on them.
-
-```java
-// Built-in Java annotations
-@Override                         // Tells compiler: verify this actually overrides a parent method
-@Deprecated                       // Marks as outdated — callers get a warning
-@SuppressWarnings("unchecked")    // Suppress specific compiler warnings
-@SuppressWarnings({"unchecked", "rawtypes"})  // Multiple warnings
-@FunctionalInterface              // Verifies interface has exactly one abstract method
-
-// Where to use @Override: always use it when overriding — catches typos at compile time
-public class Dog extends Animal {
-    @Override
-    public void makeSound() { }   // compiler confirms Animal has makeSound()
-}
-
-// @Deprecated — also add Javadoc explaining what to use instead
-/**
- * @deprecated Use {@link #newMethod()} instead
- */
-@Deprecated(since = "2.0", forRemoval = true)
-public void oldMethod() { }
-
-// Custom annotation — rarely needed but useful in frameworks
-@interface Validate {
-    int min() default 0;
-    int max() default Integer.MAX_VALUE;
-    String message() default "Invalid value";
-}
-
-// Using custom annotation
-public class User {
-    @Validate(min = 0, max = 150, message = "Age out of range")
-    private int age;
-}
-
-// Common framework annotations you'll encounter:
-// Spring:  @Component, @Service, @Autowired, @RequestMapping
-// JUnit:   @Test, @BeforeEach, @AfterEach
-// Jackson: @JsonProperty, @JsonIgnore
-```
-
-## Useful Utility Classes
-
-```java
-// Arrays class
-import java.util.Arrays;
-Arrays.sort(arr);                    // Sort array
-Arrays.binarySearch(arr, key);       // Search sorted array
-Arrays.fill(arr, value);             // Fill with value
-Arrays.copyOf(arr, newLength);       // Copy array
-Arrays.equals(arr1, arr2);           // Compare arrays
-Arrays.toString(arr);                // Array to string
-
-// Collections class
-import java.util.Collections;
-Collections.sort(list);              // Sort list
-Collections.reverse(list);           // Reverse list
-Collections.shuffle(list);           // Randomize order
-Collections.max(list);               // Find max
-Collections.min(list);               // Find min
-Collections.frequency(list, obj);    // Count occurrences
-
-// Objects class
-import java.util.Objects;
-Objects.equals(a, b);                // Null-safe equals
-Objects.hash(a, b, c);               // Generate hash
-Objects.requireNonNull(obj);         // Throw if null
-```
-
----
-
-## StringBuilder (Efficient String Building)
-
-```java
-// String concatenation in a loop is slow — use StringBuilder instead
-StringBuilder sb = new StringBuilder();
-sb.append("Hello");         // Add to end
-sb.append(", ");
-sb.append("World");
-sb.insert(5, "!");          // Insert at index
-sb.delete(5, 6);            // Delete chars from 5 to 6
-sb.reverse();               // Reverse the contents
-sb.replace(0, 5, "Hi");     // Replace range
-sb.length();                // Current length
-sb.charAt(0);               // Get char at index
-String result = sb.toString();  // Convert back to String
-
-// Chaining (each method returns the StringBuilder)
-String s = new StringBuilder()
-    .append("Hello")
-    .append(" ")
-    .append("World")
-    .toString();  // "Hello World"
-
-// String.format and String.join (alternatives)
-String formatted = String.format("Name: %s, Age: %d", "Alice", 25);
-String joined = String.join(", ", "Alice", "Bob", "Charlie");  // "Alice, Bob, Charlie"
-String joined2 = String.join("-", List.of("a", "b", "c"));     // "a-b-c"
-```
-
----
-
-## 2D Arrays
-
-```java
-// Declare a 2D array (3 rows, 4 columns)
-int[][] grid = new int[3][4];
-
-// Initialize with values
-int[][] matrix = {
-    {1, 2, 3},
-    {4, 5, 6},
-    {7, 8, 9}
-};
-
-// Access elements
-matrix[0][0] = 10;       // First row, first column
-int val = matrix[1][2];  // Second row, third column: 6
-
-// Dimensions
-int rows = matrix.length;         // 3
-int cols = matrix[0].length;      // 3
-
-// Loop through 2D array
-for (int i = 0; i < matrix.length; i++) {
-    for (int j = 0; j < matrix[i].length; j++) {
-        System.out.print(matrix[i][j] + " ");
-    }
-    System.out.println();
-}
-
-// For-each equivalent
-for (int[] row : matrix) {
-    for (int val2 : row) {
-        System.out.print(val2 + " ");
-    }
-}
-
-// Jagged array (rows of different sizes)
-int[][] jagged = new int[3][];
-jagged[0] = new int[2];
-jagged[1] = new int[4];
-jagged[2] = new int[1];
-```
-
----
-
-## Varargs (Variable-Length Arguments)
-
-```java
-// Accept any number of arguments of the same type
-public static int sum(int... numbers) {
-    int total = 0;
-    for (int n : numbers) {
-        total += n;
-    }
-    return total;
-}
-
-sum(1, 2, 3);          // 6
-sum(10, 20);           // 30
-sum();                 // 0
-
-// Varargs must be the last parameter
-public static void log(String label, int... values) {
-    System.out.print(label + ": ");
-    for (int v : values) System.out.print(v + " ");
-}
-
-log("scores", 90, 85, 78);  // scores: 90 85 78
-
-// Internally treated as an array
-public static void printAll(String... items) {
-    System.out.println(items.length);  // works like array
-}
-```
-
----
-
-## Autoboxing & Wrapper Types
-
-```java
-// Each primitive has a wrapper class
-// int -> Integer,  double -> Double,  boolean -> Boolean,
-// char -> Character,  long -> Long,  float -> Float, etc.
-
-// Autoboxing: primitive -> wrapper (automatic)
-Integer boxed = 42;           // same as Integer.valueOf(42)
-Double d = 3.14;
-
-// Unboxing: wrapper -> primitive (automatic)
-int unboxed = boxed;          // same as boxed.intValue()
-
-// Useful wrapper methods
-Integer.parseInt("123");      // String to int
-Integer.toBinaryString(10);   // "1010"
-Integer.toHexString(255);     // "ff"
-Integer.MAX_VALUE;            // 2147483647
-Integer.MIN_VALUE;            // -2147483648
-
-Double.isNaN(0.0 / 0.0);     // true
-Double.isInfinite(1.0 / 0.0);// true
-
-// Collections require wrapper types (not primitives)
-List<Integer> ints = new ArrayList<>();
-ints.add(5);    // autoboxed to Integer
-int x = ints.get(0);  // unboxed to int
-```
-
----
-
-## Nested & Inner Classes
-
-```java
-// Static nested class — does NOT need an outer instance
-public class Outer {
-    private static int count = 0;
-
-    public static class StaticNested {
-        public void show() {
-            System.out.println("count = " + count);  // can access static fields
-        }
-    }
-}
-Outer.StaticNested nested = new Outer.StaticNested();
-
-// Inner class — requires an outer instance, can access all outer members
-public class Outer {
-    private String name = "Outer";
-
-    public class Inner {
-        public void show() {
-            System.out.println(name);  // accesses outer's private field
-        }
-    }
-}
-Outer outer = new Outer();
-Outer.Inner inner = outer.new Inner();
-
-// Anonymous class — one-off implementation of an interface or abstract class
-Runnable r = new Runnable() {
-    @Override
-    public void run() {
-        System.out.println("Anonymous runnable");
-    }
-};
-
-// Local class — defined inside a method
-public void doSomething() {
-    class LocalHelper {
-        void help() { System.out.println("Helping"); }
-    }
-    new LocalHelper().help();
-}
-```
-
----
-
-## More Collections
-
-```java
-import java.util.*;
-
-// LinkedList — doubly linked list, good for frequent insert/remove
-LinkedList<String> ll = new LinkedList<>();
-ll.addFirst("first");    // Add to front
-ll.addLast("last");      // Add to back
-ll.peekFirst();          // View front without removing
-ll.pollFirst();          // Remove and return front
-ll.pollLast();           // Remove and return back
-
-// Deque (double-ended queue) — stack + queue operations
-Deque<Integer> deque = new ArrayDeque<>();
-deque.push(1);           // Push to front (stack)
-deque.pop();             // Pop from front (stack)
-deque.offer(2);          // Add to back (queue)
-deque.poll();            // Remove from front (queue)
-
-// PriorityQueue — min-heap by default
-PriorityQueue<Integer> pq = new PriorityQueue<>();
-pq.add(5);
-pq.add(1);
-pq.add(3);
-pq.peek();   // 1  (smallest, without removing)
-pq.poll();   // 1  (removes smallest)
-
-// Max-heap using comparator
-PriorityQueue<Integer> maxPQ = new PriorityQueue<>(Comparator.reverseOrder());
-
-// TreeMap — sorted HashMap (sorted by key)
-TreeMap<String, Integer> treeMap = new TreeMap<>();
-treeMap.put("banana", 2);
-treeMap.put("apple", 5);
-treeMap.put("cherry", 1);
-treeMap.firstKey();         // "apple" (alphabetically first)
-treeMap.lastKey();          // "cherry"
-treeMap.headMap("cherry");  // entries before "cherry"
-treeMap.tailMap("banana");  // entries from "banana" onward
-
-// TreeSet — sorted HashSet (no duplicates, sorted order)
-TreeSet<Integer> treeSet = new TreeSet<>();
-treeSet.add(5);
-treeSet.add(1);
-treeSet.add(3);
-treeSet.first();            // 1
-treeSet.last();             // 5
-treeSet.headSet(3);         // [1] (elements < 3)
-treeSet.tailSet(3);         // [3, 5] (elements >= 3)
-```
-
----
-
-## Comparable & Comparator (Custom Sorting)
-
-```java
-// Comparable — class defines its own natural ordering
-public class Student implements Comparable<Student> {
-    String name;
-    int grade;
-
-    public Student(String name, int grade) {
-        this.name = name;
-        this.grade = grade;
-    }
-
-    @Override
-    public int compareTo(Student other) {
-        return this.grade - other.grade;  // sort by grade ascending
-        // return other.grade - this.grade;  // descending
-        // return this.name.compareTo(other.name);  // by name
-    }
-}
-
-List<Student> students = new ArrayList<>();
-students.add(new Student("Alice", 90));
-students.add(new Student("Bob", 75));
-Collections.sort(students);   // uses compareTo
-
-// Comparator — external comparison logic (more flexible)
-Comparator<Student> byName = Comparator.comparing(s -> s.name);
-Comparator<Student> byGrade = Comparator.comparingInt(s -> s.grade);
-Comparator<Student> byGradeDesc = Comparator.comparingInt((Student s) -> s.grade).reversed();
-
-// Chaining comparators
-Comparator<Student> byGradeThenName = Comparator
-    .comparingInt((Student s) -> s.grade)
-    .thenComparing(s -> s.name);
-
-students.sort(byGradeThenName);
-students.sort((a, b) -> a.name.compareTo(b.name));  // inline lambda
-```
-
----
-
-## Method References
-
-```java
-// Shorthand for lambdas that just call a method
-// Syntax: ClassName::methodName  or  instance::methodName
-
-// Static method reference
-Function<String, Integer> parser = Integer::parseInt;
-parser.apply("123");   // 123
-
-// Instance method reference on a type
-Function<String, String> upper = String::toUpperCase;
-upper.apply("hello");  // "HELLO"
-
-// Instance method reference on a specific object
-String prefix = "Hello, ";
-Function<String, String> greeter = prefix::concat;
-greeter.apply("Alice");  // "Hello, Alice"
-
-// Constructor reference
-Supplier<ArrayList<String>> listFactory = ArrayList::new;
-ArrayList<String> list = listFactory.get();
-
-// Common usage in streams
-List<String> names = List.of("alice", "bob", "charlie");
-names.stream()
-    .map(String::toUpperCase)           // method ref instead of s -> s.toUpperCase()
-    .forEach(System.out::println);      // method ref instead of s -> System.out.println(s)
-
-List<String> strings = List.of("3", "1", "4", "1", "5");
-List<Integer> ints = strings.stream()
-    .map(Integer::parseInt)             // static method ref
-    .collect(Collectors.toList());
 ```
 
 ---
@@ -2082,145 +1786,389 @@ try (DatabaseConnection conn = new DatabaseConnection()) {
 
 ---
 
-## var Keyword (Java 10+)
+## Nested & Inner Classes
 
 ```java
-// Local variable type inference — compiler infers the type
-var message = "Hello";          // String
-var count = 42;                 // int
-var price = 9.99;               // double
-var list = new ArrayList<String>();  // ArrayList<String>
+// Static nested class — does NOT need an outer instance
+public class Outer {
+    private static int count = 0;
 
-// Useful in for loops
-for (var name : List.of("Alice", "Bob")) {
-    System.out.println(name);
-}
-
-// Useful with long generic types
-var map = new HashMap<String, List<Integer>>();
-
-// Limitations — var cannot be used for:
-// - fields, method parameters, or return types
-// - without initialization (var x;  is invalid)
-// - null initialization (var x = null;  is invalid)
-```
-
----
-
-## Text Blocks (Java 15+)
-
-```java
-// Multi-line strings without escape sequences
-String json = """
-        {
-            "name": "Alice",
-            "age": 25
+    public static class StaticNested {
+        public void show() {
+            System.out.println("count = " + count);  // can access static fields
         }
-        """;
+    }
+}
+Outer.StaticNested nested = new Outer.StaticNested();
 
-String html = """
-        <html>
-            <body>
-                <p>Hello, World!</p>
-            </body>
-        </html>
-        """;
+// Inner class — requires an outer instance, can access all outer members
+public class Outer {
+    private String name = "Outer";
 
-// Indentation is stripped based on the closing """
-// Trailing newline is included unless """ is on the same line as content
+    public class Inner {
+        public void show() {
+            System.out.println(name);  // accesses outer's private field
+        }
+    }
+}
+Outer outer = new Outer();
+Outer.Inner inner = outer.new Inner();
 
-// Works with String methods
-String query = """
-        SELECT *
-        FROM users
-        WHERE age > 18
-        """.strip();
+// Anonymous class — one-off implementation of an interface or abstract class
+Runnable r = new Runnable() {
+    @Override
+    public void run() {
+        System.out.println("Anonymous runnable");
+    }
+};
 
-// Formatted text blocks
-String greeting = """
-        Hello, %s!
-        You are %d years old.
-        """.formatted("Alice", 25);
+// Local class — defined inside a method
+public void doSomething() {
+    class LocalHelper {
+        void help() { System.out.println("Helping"); }
+    }
+    new LocalHelper().help();
+}
 ```
 
 ---
 
-## Pattern Matching instanceof (Java 16+)
+## Comparable & Comparator (Custom Sorting)
 
 ```java
-// Old way
-Object obj = "Hello";
-if (obj instanceof String) {
-    String s = (String) obj;   // explicit cast needed
-    System.out.println(s.length());
-}
+// Comparable — class defines its own natural ordering
+public class Student implements Comparable<Student> {
+    String name;
+    int grade;
 
-// New way — cast happens automatically
-if (obj instanceof String s) {
-    System.out.println(s.length());  // s is already a String
-}
+    public Student(String name, int grade) {
+        this.name = name;
+        this.grade = grade;
+    }
 
-// Works in conditions too
-if (obj instanceof String s && s.length() > 3) {
-    System.out.println("Long string: " + s);
-}
-
-// Useful in polymorphic scenarios
-public String describe(Object shape) {
-    if (shape instanceof Circle c) {
-        return "Circle with radius " + c.getRadius();
-    } else if (shape instanceof Rectangle r) {
-        return "Rectangle " + r.getWidth() + "x" + r.getHeight();
-    } else {
-        return "Unknown shape";
+    @Override
+    public int compareTo(Student other) {
+        return this.grade - other.grade;  // sort by grade ascending
+        // return other.grade - this.grade;  // descending
+        // return this.name.compareTo(other.name);  // by name
     }
 }
 
-// Pattern matching in switch (Java 21+)
-String result = switch (obj) {
-    case Integer i -> "int: " + i;
-    case String s  -> "string: " + s;
-    case null      -> "null";
-    default        -> "other";
-};
+List<Student> students = new ArrayList<>();
+students.add(new Student("Alice", 90));
+students.add(new Student("Bob", 75));
+Collections.sort(students);   // uses compareTo
+
+// Comparator — external comparison logic (more flexible)
+Comparator<Student> byName = Comparator.comparing(s -> s.name);
+Comparator<Student> byGrade = Comparator.comparingInt(s -> s.grade);
+Comparator<Student> byGradeDesc = Comparator.comparingInt((Student s) -> s.grade).reversed();
+
+// Chaining comparators
+Comparator<Student> byGradeThenName = Comparator
+    .comparingInt((Student s) -> s.grade)
+    .thenComparing(s -> s.name);
+
+students.sort(byGradeThenName);
+students.sort((a, b) -> a.name.compareTo(b.name));  // inline lambda
 ```
 
 ---
 
-## Sealed Classes (Java 17+)
+## More Collections
 
 ```java
-// Restricts which classes can extend or implement this type
-public sealed class Shape permits Circle, Rectangle, Triangle { }
+import java.util.*;
 
-public final class Circle extends Shape {
-    private double radius;
-    public Circle(double radius) { this.radius = radius; }
-    public double getRadius() { return radius; }
+// LinkedList — doubly linked list, good for frequent insert/remove
+LinkedList<String> ll = new LinkedList<>();
+ll.addFirst("first");    // Add to front
+ll.addLast("last");      // Add to back
+ll.peekFirst();          // View front without removing
+ll.pollFirst();          // Remove and return front
+ll.pollLast();           // Remove and return back
+
+// Deque (double-ended queue) — stack + queue operations
+Deque<Integer> deque = new ArrayDeque<>();
+deque.push(1);           // Push to front (stack)
+deque.pop();             // Pop from front (stack)
+deque.offer(2);          // Add to back (queue)
+deque.poll();            // Remove from front (queue)
+
+// PriorityQueue — min-heap by default
+PriorityQueue<Integer> pq = new PriorityQueue<>();
+pq.add(5);
+pq.add(1);
+pq.add(3);
+pq.peek();   // 1  (smallest, without removing)
+pq.poll();   // 1  (removes smallest)
+
+// Max-heap using comparator
+PriorityQueue<Integer> maxPQ = new PriorityQueue<>(Comparator.reverseOrder());
+
+// TreeMap — sorted HashMap (sorted by key)
+TreeMap<String, Integer> treeMap = new TreeMap<>();
+treeMap.put("banana", 2);
+treeMap.put("apple", 5);
+treeMap.put("cherry", 1);
+treeMap.firstKey();         // "apple" (alphabetically first)
+treeMap.lastKey();          // "cherry"
+treeMap.headMap("cherry");  // entries before "cherry"
+treeMap.tailMap("banana");  // entries from "banana" onward
+
+// TreeSet — sorted HashSet (no duplicates, sorted order)
+TreeSet<Integer> treeSet = new TreeSet<>();
+treeSet.add(5);
+treeSet.add(1);
+treeSet.add(3);
+treeSet.first();            // 1
+treeSet.last();             // 5
+treeSet.headSet(3);         // [1] (elements < 3)
+treeSet.tailSet(3);         // [3, 5] (elements >= 3)
+```
+
+---
+
+## Generics
+
+Generics let you write type-safe code that works with any type, without casting. The type parameter (`<T>`) is a placeholder replaced at compile time with a real type. This eliminates `ClassCastException` and removes the need for ugly casts.
+
+```java
+// Generic class — T is replaced by a real type when you use the class
+public class Box<T> {
+    private T content;
+
+    public void set(T content) { this.content = content; }
+    public T get() { return content; }
 }
 
-public final class Rectangle extends Shape {
-    private double width, height;
-    public Rectangle(double w, double h) { this.width = w; this.height = h; }
+Box<String> stringBox = new Box<>();
+stringBox.set("Hello");
+String s = stringBox.get();  // no cast needed!
+
+Box<Integer> intBox = new Box<>();
+intBox.set(123);
+
+// Generic method — type is inferred from the argument
+public static <T> void printArray(T[] array) {
+    for (T element : array) {
+        System.out.println(element);
+    }
+}
+printArray(new String[]{"a", "b"});   // T inferred as String
+printArray(new Integer[]{1, 2, 3});   // T inferred as Integer
+```
+
+**Bounded type parameters — restrict what types are allowed:**
+```java
+// T must be a Number or subclass (Integer, Double, Long, etc.)
+public static <T extends Number> double sum(T[] arr) {
+    double total = 0;
+    for (T t : arr) total += t.doubleValue();
+    return total;
 }
 
-public non-sealed class Triangle extends Shape {
-    // non-sealed means Triangle itself can be extended further
+// Multiple bounds
+public static <T extends Comparable<T> & Cloneable> T findMax(T[] arr) {
+    T max = arr[0];
+    for (T t : arr) if (t.compareTo(max) > 0) max = t;
+    return max;
 }
+```
 
-// Sealed interfaces work the same way
-public sealed interface Result<T> permits Success, Failure { }
+**Wildcards — for flexible method parameters:**
+```java
+// ? extends T — read-only (upper bound) — "some subtype of Number"
+public static double total(List<? extends Number> list) {
+    double sum = 0;
+    for (Number n : list) sum += n.doubleValue();
+    return sum;
+}
+total(List.of(1, 2, 3));       // works with List<Integer>
+total(List.of(1.1, 2.2));      // works with List<Double>
 
-public record Success<T>(T value) implements Result<T> { }
-public record Failure<T>(String error) implements Result<T> { }
+// ? super T — write-only (lower bound) — "some supertype of Integer"
+public static void addNumbers(List<? super Integer> list) {
+    list.add(1);
+    list.add(2);
+}
+```
 
-// Benefit: exhaustive switch (compiler knows all cases)
-double area = switch (shape) {
-    case Circle c    -> Math.PI * c.getRadius() * c.getRadius();
-    case Rectangle r -> r.width * r.height;
-    case Triangle t  -> 0.5 * t.base * t.height;
-    // no default needed — compiler knows all subtypes
+---
+
+<!-- ============================================================ -->
+<!-- TIER 9 — MODERN JAVA FEATURES                                 -->
+<!-- ============================================================ -->
+
+---
+
+## Lambda Expressions (Java 8+)
+
+A lambda is a concise way to write a **functional interface** implementation — an interface with exactly one abstract method. The lambda body IS that method's implementation. Lambdas make code shorter and more readable, especially when working with streams, sorting, and event handling.
+
+```java
+// Old way — anonymous class (verbose)
+Runnable r1 = new Runnable() {
+    @Override
+    public void run() { System.out.println("Running"); }
 };
+
+// Lambda — concise equivalent
+Runnable r2 = () -> System.out.println("Running");
+// ()  = parameters (none here)
+// ->  = "arrow" separating params from body
+// ... = body (expression or {} block)
+
+// Multi-line lambda body
+Runnable r3 = () -> {
+    System.out.println("Step 1");
+    System.out.println("Step 2");
+};
+
+// Lambda with parameters
+Comparator<String> byLength = (a, b) -> a.length() - b.length();
+List<String> names = Arrays.asList("Charlie", "Alice", "Bob");
+names.sort(byLength);  // [Bob, Alice, Charlie]
+```
+
+**Built-in functional interfaces** (`java.util.function`):
+```java
+// Consumer<T>     — takes T, returns nothing
+Consumer<String> printer = s -> System.out.println(s);
+printer.accept("Hello");
+
+// Predicate<T>    — takes T, returns boolean (used in filter)
+Predicate<Integer> isEven = n -> n % 2 == 0;
+isEven.test(4);    // true
+isEven.test(3);    // false
+
+// Combining predicates
+Predicate<Integer> isPositive = n -> n > 0;
+Predicate<Integer> isEvenAndPositive = isEven.and(isPositive);
+Predicate<Integer> isEvenOrNegative = isEven.or(isPositive.negate());
+
+// Function<T, R>  — takes T, returns R (used in map)
+Function<String, Integer> length = s -> s.length();
+length.apply("Hello");  // 5
+
+// Chaining functions
+Function<Integer, Integer> doubleIt = x -> x * 2;
+Function<Integer, String> toStr = x -> "Value: " + x;
+Function<Integer, String> combined = doubleIt.andThen(toStr);
+combined.apply(5);  // "Value: 10"
+
+// Supplier<T>     — takes nothing, returns T
+Supplier<Double> random = () -> Math.random();
+random.get();
+
+// BiFunction<T, U, R> — takes two params, returns R
+BiFunction<String, Integer, String> repeat = (s, n) -> s.repeat(n);
+repeat.apply("ha", 3);  // "hahaha"
+```
+
+---
+
+## Method References
+
+```java
+// Shorthand for lambdas that just call a method
+// Syntax: ClassName::methodName  or  instance::methodName
+
+// Static method reference
+Function<String, Integer> parser = Integer::parseInt;
+parser.apply("123");   // 123
+
+// Instance method reference on a type
+Function<String, String> upper = String::toUpperCase;
+upper.apply("hello");  // "HELLO"
+
+// Instance method reference on a specific object
+String prefix = "Hello, ";
+Function<String, String> greeter = prefix::concat;
+greeter.apply("Alice");  // "Hello, Alice"
+
+// Constructor reference
+Supplier<ArrayList<String>> listFactory = ArrayList::new;
+ArrayList<String> list = listFactory.get();
+
+// Common usage in streams
+List<String> names = List.of("alice", "bob", "charlie");
+names.stream()
+    .map(String::toUpperCase)           // method ref instead of s -> s.toUpperCase()
+    .forEach(System.out::println);      // method ref instead of s -> System.out.println(s)
+
+List<String> strings = List.of("3", "1", "4", "1", "5");
+List<Integer> ints = strings.stream()
+    .map(Integer::parseInt)             // static method ref
+    .collect(Collectors.toList());
+```
+
+---
+
+## Stream API (Java 8+)
+
+A `Stream` is a pipeline of operations applied to a sequence of elements. Streams are **lazy** — intermediate operations (filter, map, sorted) don't run until a **terminal operation** (collect, forEach, reduce) is called. Streams do NOT modify the original collection.
+
+Three phases: **source → intermediate operations → terminal operation**
+
+```java
+import java.util.stream.*;
+import java.util.Arrays;
+import java.util.List;
+
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+// filter — keep elements that match the predicate (intermediate)
+List<Integer> evens = numbers.stream()
+    .filter(n -> n % 2 == 0)
+    .collect(Collectors.toList());  // [2, 4, 6, 8, 10]
+
+// map — transform each element to something else (intermediate)
+List<Integer> doubled = numbers.stream()
+    .map(n -> n * 2)
+    .collect(Collectors.toList());  // [2, 4, 6, 8, ...]
+
+// map to a different type
+List<String> strs = numbers.stream()
+    .map(n -> "num" + n)
+    .collect(Collectors.toList());  // ["num1", "num2", ...]
+
+// reduce — combine all elements into a single value (terminal)
+int sum = numbers.stream()
+    .reduce(0, (a, b) -> a + b);    // 55  (0 is the identity/starting value)
+
+// Chaining operations — the power of streams
+int result = numbers.stream()
+    .filter(n -> n > 5)             // [6, 7, 8, 9, 10]
+    .map(n -> n * 2)                // [12, 14, 16, 18, 20]
+    .reduce(0, Integer::sum);       // 80
+
+// Terminal operations
+numbers.stream().count();                      // 10
+numbers.stream().min(Integer::compare);        // Optional[1]
+numbers.stream().max(Integer::compare);        // Optional[10]
+numbers.stream().sum();                        // only for IntStream/LongStream/DoubleStream
+numbers.stream().findFirst();                  // Optional[1]
+numbers.stream().anyMatch(n -> n > 5);         // true (stops at first match)
+numbers.stream().allMatch(n -> n > 0);         // true (must check all)
+numbers.stream().noneMatch(n -> n > 100);      // true
+numbers.stream().forEach(System.out::println); // print each (no return value)
+
+// Intermediate operations
+numbers.stream().sorted();                     // natural order (new sorted stream)
+numbers.stream().sorted(Comparator.reverseOrder()); // reverse order
+numbers.stream().distinct();                   // remove duplicates
+numbers.stream().limit(5);                     // take first 5: [1,2,3,4,5]
+numbers.stream().skip(3);                      // skip first 3: [4,5,...,10]
+numbers.stream().peek(n -> System.out.println("Processing: " + n)); // debug without consuming
+
+// Primitive streams — avoid autoboxing overhead
+int sumDirect = numbers.stream()
+    .mapToInt(Integer::intValue)   // IntStream
+    .sum();                         // built-in sum, no reduce needed
+
+IntStream.range(0, 5)              // 0, 1, 2, 3, 4 (exclusive end)
+IntStream.rangeClosed(1, 5)        // 1, 2, 3, 4, 5 (inclusive end)
 ```
 
 ---
@@ -2285,6 +2233,465 @@ List<Integer> dropped = numbers.stream()
 
 ---
 
+## Optional (Java 8+)
+
+`Optional<T>` is a container that either holds a value or is empty. It forces you to explicitly handle the "no value" case instead of silently returning `null` and risking `NullPointerException`. Use `Optional` as a **return type** when a method might not find a result — don't use it for fields or parameters.
+
+```java
+import java.util.Optional;
+
+// Creating Optional values
+Optional<String> name = Optional.of("Alice");         // must be non-null (throws if null)
+Optional<String> empty = Optional.empty();            // explicitly empty
+Optional<String> nullable = Optional.ofNullable(possiblyNull);  // null -> empty
+
+// Checking and getting the value
+name.isPresent();                      // true (value exists)
+name.isEmpty();                        // false (Java 11+)
+name.get();                            // "Alice" — throws NoSuchElementException if empty!
+
+// Safe alternatives to get() — prefer these:
+name.orElse("Default");                // return value or a default
+name.orElseGet(() -> computeDefault()); // return value or lazily compute a default
+name.orElseThrow(() -> new RuntimeException("No name!")); // throw custom exception if empty
+
+// Performing actions
+name.ifPresent(n -> System.out.println(n));           // only runs if present
+name.ifPresentOrElse(                                  // Java 9+
+    n -> System.out.println("Found: " + n),
+    () -> System.out.println("Not found")
+);
+
+// Transforming — Optional chains work like streams
+Optional<Integer> nameLength = name
+    .filter(n -> n.length() > 3)        // empty if name too short
+    .map(String::length);               // transform to length
+
+nameLength.orElse(0);   // 5
+
+// Real-world example — searching a list
+Optional<String> found = names.stream()
+    .filter(n -> n.startsWith("A"))
+    .findFirst();
+
+found.ifPresent(System.out::println);
+String result = found.orElse("None found");
+```
+
+---
+
+## Immutable Collections (Java 9+)
+
+```java
+// These collections cannot be modified after creation
+List<String> names = List.of("Alice", "Bob", "Charlie");
+Set<Integer> primes = Set.of(2, 3, 5, 7, 11);
+Map<String, Integer> scores = Map.of("Alice", 95, "Bob", 87);
+
+// Map.ofEntries for larger maps
+Map<String, Integer> bigMap = Map.ofEntries(
+    Map.entry("Alice", 95),
+    Map.entry("Bob", 87),
+    Map.entry("Charlie", 92)
+);
+
+// Attempting to modify throws UnsupportedOperationException
+// names.add("Dave");  // throws!
+
+// To get a mutable copy:
+List<String> mutable = new ArrayList<>(names);
+mutable.add("Dave");  // works
+```
+
+---
+
+## var Keyword (Java 10+)
+
+```java
+// Local variable type inference — compiler infers the type
+var message = "Hello";          // String
+var count = 42;                 // int
+var price = 9.99;               // double
+var list = new ArrayList<String>();  // ArrayList<String>
+
+// Useful in for loops
+for (var name : List.of("Alice", "Bob")) {
+    System.out.println(name);
+}
+
+// Useful with long generic types
+var map = new HashMap<String, List<Integer>>();
+
+// Limitations — var cannot be used for:
+// - fields, method parameters, or return types
+// - without initialization (var x;  is invalid)
+// - null initialization (var x = null;  is invalid)
+```
+
+---
+
+## Switch Expressions (Java 14+)
+
+```java
+// Modern switch with arrow syntax
+String result = switch (day) {
+    case MONDAY, FRIDAY -> "Work day";
+    case SATURDAY, SUNDAY -> "Weekend";
+    default -> "Midweek";
+};
+
+// With code blocks
+int numLetters = switch (day) {
+    case MONDAY, FRIDAY, SUNDAY -> 6;
+    case TUESDAY -> 7;
+    default -> {
+        String s = day.toString();
+        yield s.length();  // yield instead of return
+    }
+};
+```
+
+---
+
+## Text Blocks (Java 15+)
+
+```java
+// Multi-line strings without escape sequences
+String json = """
+        {
+            "name": "Alice",
+            "age": 25
+        }
+        """;
+
+String html = """
+        <html>
+            <body>
+                <p>Hello, World!</p>
+            </body>
+        </html>
+        """;
+
+// Indentation is stripped based on the closing """
+// Trailing newline is included unless """ is on the same line as content
+
+// Works with String methods
+String query = """
+        SELECT *
+        FROM users
+        WHERE age > 18
+        """.strip();
+
+// Formatted text blocks
+String greeting = """
+        Hello, %s!
+        You are %d years old.
+        """.formatted("Alice", 25);
+```
+
+---
+
+## Records (Java 16+)
+
+A `record` is a compact, immutable data class. Java auto-generates the constructor, getters (named after the fields), `equals()`, `hashCode()`, and `toString()`. Records are **immutable** — fields are `final` and there are no setters.
+
+```java
+// Compact way to create immutable data classes
+public record Person(String name, int age) { }
+
+// Equivalent to a class with:
+// - private final String name; private final int age;
+// - public Person(String name, int age) { this.name = name; this.age = age; }
+// - public String name() { return name; }   // NOTE: no "get" prefix!
+// - public int age() { return age; }
+// - equals(), hashCode(), toString() all auto-generated
+
+Person p = new Person("Alice", 25);
+p.name();    // "Alice"
+p.age();     // 25
+System.out.println(p);  // Person[name=Alice, age=25]
+
+// Records can have custom methods
+public record Point(double x, double y) {
+    // Compact canonical constructor — for validation
+    public Point {
+        if (x < 0 || y < 0) throw new IllegalArgumentException("Negative coordinates");
+    }
+
+    // Custom method
+    public double distanceTo(Point other) {
+        return Math.sqrt(Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2));
+    }
+
+    // Static factory method
+    public static Point origin() { return new Point(0, 0); }
+}
+
+// Records are great for:
+// - DTOs (Data Transfer Objects)
+// - Returning multiple values from a method
+// - Map keys (equals/hashCode are value-based)
+// - Pattern matching targets with sealed interfaces
+
+// Records implement equals by value (not reference)
+Person a = new Person("Alice", 25);
+Person b = new Person("Alice", 25);
+a.equals(b);  // true (compares field values)
+a == b;       // false (different objects)
+```
+
+---
+
+## Pattern Matching instanceof (Java 16+)
+
+```java
+// Old way
+Object obj = "Hello";
+if (obj instanceof String) {
+    String s = (String) obj;   // explicit cast needed
+    System.out.println(s.length());
+}
+
+// New way — cast happens automatically
+if (obj instanceof String s) {
+    System.out.println(s.length());  // s is already a String
+}
+
+// Works in conditions too
+if (obj instanceof String s && s.length() > 3) {
+    System.out.println("Long string: " + s);
+}
+
+// Useful in polymorphic scenarios
+public String describe(Object shape) {
+    if (shape instanceof Circle c) {
+        return "Circle with radius " + c.getRadius();
+    } else if (shape instanceof Rectangle r) {
+        return "Rectangle " + r.getWidth() + "x" + r.getHeight();
+    } else {
+        return "Unknown shape";
+    }
+}
+
+// Pattern matching in switch (Java 21+)
+String result = switch (obj) {
+    case Integer i -> "int: " + i;
+    case String s  -> "string: " + s;
+    case null      -> "null";
+    default        -> "other";
+};
+```
+
+---
+
+## Interface Advanced Features
+
+```java
+// Static methods in interfaces (Java 8+)
+public interface Validator {
+    boolean validate(String input);
+
+    static Validator notNull() {
+        return input -> input != null;
+    }
+
+    static Validator minLength(int min) {
+        return input -> input != null && input.length() >= min;
+    }
+
+    // Combine validators
+    default Validator and(Validator other) {
+        return input -> this.validate(input) && other.validate(input);
+    }
+}
+
+Validator check = Validator.notNull().and(Validator.minLength(3));
+check.validate("Hi");     // false (too short)
+check.validate("Hello");  // true
+
+// Functional interface (exactly one abstract method — usable as lambda)
+@FunctionalInterface
+public interface Transformer<T, R> {
+    R transform(T input);
+
+    // Can have default and static methods
+    default <V> Transformer<T, V> andThen(Transformer<R, V> after) {
+        return input -> after.transform(this.transform(input));
+    }
+}
+
+Transformer<String, Integer> length = String::length;
+Transformer<String, String> lengthStr = length.andThen(n -> "Length: " + n);
+lengthStr.transform("Hello");  // "Length: 5"
+```
+
+---
+
+## Sealed Classes (Java 17+)
+
+```java
+// Restricts which classes can extend or implement this type
+public sealed class Shape permits Circle, Rectangle, Triangle { }
+
+public final class Circle extends Shape {
+    private double radius;
+    public Circle(double radius) { this.radius = radius; }
+    public double getRadius() { return radius; }
+}
+
+public final class Rectangle extends Shape {
+    private double width, height;
+    public Rectangle(double w, double h) { this.width = w; this.height = h; }
+}
+
+public non-sealed class Triangle extends Shape {
+    // non-sealed means Triangle itself can be extended further
+}
+
+// Sealed interfaces work the same way
+public sealed interface Result<T> permits Success, Failure { }
+
+public record Success<T>(T value) implements Result<T> { }
+public record Failure<T>(String error) implements Result<T> { }
+
+// Benefit: exhaustive switch (compiler knows all cases)
+double area = switch (shape) {
+    case Circle c    -> Math.PI * c.getRadius() * c.getRadius();
+    case Rectangle r -> r.width * r.height;
+    case Triangle t  -> 0.5 * t.base * t.height;
+    // no default needed — compiler knows all subtypes
+};
+```
+
+---
+
+<!-- ============================================================ -->
+<!-- TIER 10 — I/O & CONCURRENCY                                   -->
+<!-- ============================================================ -->
+
+---
+
+## File I/O
+
+Java's `java.nio.file` package (NIO.2, Java 7+) is the modern API. Prefer it over the older `java.io` classes. **Always use try-with-resources** when working with streams and readers to guarantee files are closed.
+
+```java
+import java.io.*;
+import java.nio.file.*;
+import java.util.List;
+
+Path path = Path.of("file.txt");   // Represents a file path (doesn't need to exist yet)
+
+// Reading — modern NIO.2 (best for small/medium files)
+String content = Files.readString(path);               // Entire file as one String (Java 11+)
+List<String> lines = Files.readAllLines(path);         // One String per line
+byte[] bytes = Files.readAllBytes(path);               // Raw bytes
+
+// Writing — modern NIO.2
+Files.writeString(path, "Hello World");                // Write String (overwrites)
+Files.writeString(path, "More", StandardOpenOption.APPEND); // Append instead
+Files.write(path, lines);                              // Write list of lines
+
+// Checking and managing files/directories
+Files.exists(path);              // true if file exists
+Files.isDirectory(path);         // true if it's a directory
+Files.size(path);                // file size in bytes
+Files.delete(path);              // delete (throws if not found)
+Files.deleteIfExists(path);      // delete if exists (no exception if missing)
+Files.copy(path, Path.of("copy.txt"));   // copy file
+Files.move(path, Path.of("new.txt"));    // move/rename file
+Files.createDirectory(Path.of("myDir")); // create a directory
+Files.createDirectories(Path.of("a/b/c")); // create nested dirs
+
+// Listing files in a directory
+Files.list(Path.of("."))                          // Stream<Path> of directory contents
+    .filter(p -> p.toString().endsWith(".java"))
+    .forEach(System.out::println);
+
+// Streaming large files line by line (efficient — doesn't load everything at once)
+try (var stream = Files.lines(path)) {
+    stream.filter(line -> !line.isBlank())
+          .forEach(System.out::println);
+}
+
+// Traditional BufferedReader (still useful, slightly faster for large files)
+try (BufferedReader reader = new BufferedReader(new FileReader("file.txt"))) {
+    String line;
+    while ((line = reader.readLine()) != null) {
+        System.out.println(line);
+    }
+}  // reader closed automatically
+
+// Traditional PrintWriter (fine for writing)
+try (PrintWriter writer = new PrintWriter(new FileWriter("file.txt", true))) {
+    // true = append mode
+    writer.println("Hello World");
+    writer.printf("Value: %d%n", 42);
+}
+```
+
+---
+
+## Multithreading Basics
+
+A **thread** is an independent path of execution. The JVM runs multiple threads concurrently. The `main` method itself runs on the main thread. Use threads to do work in parallel (e.g., background tasks while the UI stays responsive).
+
+```java
+// Method 1: Extend Thread (less flexible — can't extend anything else)
+class MyThread extends Thread {
+    @Override
+    public void run() {
+        System.out.println("Thread running on: " + Thread.currentThread().getName());
+    }
+}
+MyThread t = new MyThread();
+t.start();   // starts a new thread — do NOT call run() directly (that runs on current thread)
+
+// Method 2: Implement Runnable (preferred — separates task from threading)
+class MyRunnable implements Runnable {
+    @Override
+    public void run() { System.out.println("Runnable running"); }
+}
+Thread t2 = new Thread(new MyRunnable());
+t2.start();
+
+// Method 3: Lambda (cleanest for simple tasks)
+Thread t3 = new Thread(() -> System.out.println("Lambda thread running"));
+t3.start();
+
+// Useful thread methods
+Thread.sleep(1000);         // Pause current thread for 1000ms (throws InterruptedException)
+t.join();                   // Current thread waits until t finishes
+t.join(500);                // Wait at most 500ms
+t.isAlive();                // true if thread hasn't finished
+Thread.currentThread();     // Reference to the currently running thread
+t.setName("worker-1");      // Give the thread a readable name (helpful for debugging)
+```
+
+**The race condition problem:**
+```java
+// UNSAFE — two threads modifying same variable simultaneously
+class Counter {
+    int count = 0;
+    void increment() { count++; }  // NOT atomic! (read, add, write = 3 steps)
+}
+
+// FIX 1: synchronized — only one thread can enter at a time
+class SafeCounter {
+    private int count = 0;
+    public synchronized void increment() { count++; }
+    public synchronized int getCount() { return count; }
+}
+
+// FIX 2: AtomicInteger — lock-free, fast
+import java.util.concurrent.atomic.AtomicInteger;
+AtomicInteger atomicCount = new AtomicInteger(0);
+atomicCount.incrementAndGet();  // thread-safe increment
+atomicCount.get();              // read current value
+```
+
+---
+
 ## ExecutorService & CompletableFuture (Modern Concurrency)
 
 ```java
@@ -2342,6 +2749,155 @@ public synchronized void increment() {
 
 // volatile — ensure visibility across threads
 private volatile boolean running = true;
+```
+
+---
+
+<!-- ============================================================ -->
+<!-- TIER 11 — ADVANCED PATTERNS & UTILITIES                       -->
+<!-- ============================================================ -->
+
+---
+
+## Annotations
+
+Annotations are metadata attached to code elements (classes, methods, fields). They don't change behavior by themselves — but tools, frameworks, and the compiler can read and act on them.
+
+```java
+// Built-in Java annotations
+@Override                         // Tells compiler: verify this actually overrides a parent method
+@Deprecated                       // Marks as outdated — callers get a warning
+@SuppressWarnings("unchecked")    // Suppress specific compiler warnings
+@SuppressWarnings({"unchecked", "rawtypes"})  // Multiple warnings
+@FunctionalInterface              // Verifies interface has exactly one abstract method
+
+// Where to use @Override: always use it when overriding — catches typos at compile time
+public class Dog extends Animal {
+    @Override
+    public void makeSound() { }   // compiler confirms Animal has makeSound()
+}
+
+// @Deprecated — also add Javadoc explaining what to use instead
+/**
+ * @deprecated Use {@link #newMethod()} instead
+ */
+@Deprecated(since = "2.0", forRemoval = true)
+public void oldMethod() { }
+
+// Custom annotation — rarely needed but useful in frameworks
+@interface Validate {
+    int min() default 0;
+    int max() default Integer.MAX_VALUE;
+    String message() default "Invalid value";
+}
+
+// Using custom annotation
+public class User {
+    @Validate(min = 0, max = 150, message = "Age out of range")
+    private int age;
+}
+
+// Common framework annotations you'll encounter:
+// Spring:  @Component, @Service, @Autowired, @RequestMapping
+// JUnit:   @Test, @BeforeEach, @AfterEach
+// Jackson: @JsonProperty, @JsonIgnore
+```
+
+---
+
+## Useful Utility Classes
+
+```java
+// Arrays class
+import java.util.Arrays;
+Arrays.sort(arr);                    // Sort array
+Arrays.binarySearch(arr, key);       // Search sorted array
+Arrays.fill(arr, value);             // Fill with value
+Arrays.copyOf(arr, newLength);       // Copy array
+Arrays.equals(arr1, arr2);           // Compare arrays
+Arrays.toString(arr);                // Array to string
+
+// Collections class
+import java.util.Collections;
+Collections.sort(list);              // Sort list
+Collections.reverse(list);           // Reverse list
+Collections.shuffle(list);           // Randomize order
+Collections.max(list);               // Find max
+Collections.min(list);               // Find min
+Collections.frequency(list, obj);    // Count occurrences
+
+// Objects class
+import java.util.Objects;
+Objects.equals(a, b);                // Null-safe equals
+Objects.hash(a, b, c);               // Generate hash
+Objects.requireNonNull(obj);         // Throw if null
+```
+
+---
+
+## Common Design Patterns
+
+### Singleton
+
+```java
+public class Database {
+    private static Database instance;
+
+    private Database() { }  // Private constructor
+
+    public static Database getInstance() {
+        if (instance == null) {
+            instance = new Database();
+        }
+        return instance;
+    }
+}
+```
+
+### Builder Pattern
+
+```java
+public class Pizza {
+    private String size;
+    private boolean cheese;
+    private boolean pepperoni;
+
+    private Pizza(Builder builder) {
+        this.size = builder.size;
+        this.cheese = builder.cheese;
+        this.pepperoni = builder.pepperoni;
+    }
+
+    public static class Builder {
+        private String size;
+        private boolean cheese = false;
+        private boolean pepperoni = false;
+
+        public Builder(String size) {
+            this.size = size;
+        }
+
+        public Builder cheese() {
+            this.cheese = true;
+            return this;
+        }
+
+        public Builder pepperoni() {
+            this.pepperoni = true;
+            return this;
+        }
+
+        public Pizza build() {
+            return new Pizza(this);
+        }
+    }
+}
+
+// Usage
+Pizza pizza = new Pizza.Builder("Large")
+    .cheese()
+    .pepperoni()
+    .build();
 ```
 
 ---
@@ -2451,6 +3007,29 @@ sorter.sort(new int[]{5, 1, 3});
 
 ---
 
+<!-- ============================================================ -->
+<!-- TIER 12 — REFERENCE                                           -->
+<!-- ============================================================ -->
+
+---
+
+## Common Errors & Fixes
+
+| Error | Meaning | Common Cause & Fix |
+|-------|---------|---------------------|
+| `NullPointerException` | Calling a method or accessing a field on `null` | Check for null before use; use `Optional`; use `Objects.requireNonNull` to find source |
+| `ArrayIndexOutOfBoundsException` | Accessing index ≥ array length or < 0 | Use `i < arr.length` in loop; check off-by-one errors |
+| `StringIndexOutOfBoundsException` | Same but for String index | Ensure index < s.length() |
+| `cannot find symbol` | Variable/method doesn't exist or wrong scope | Typo? Wrong class? Forgot import? Not declared in this scope? |
+| `incompatible types` | Assigning wrong type | Add cast `(int) x` for narrowing; use correct type |
+| `missing return statement` | Non-void method doesn't always return | Ensure every code path returns a value (even inside if/else) |
+| `unreachable statement` | Code after `return` / `break` that can never run | Remove dead code |
+| `variable might not have been initialized` | Local variable used before assignment | Assign a default value when declaring |
+| `non-static method cannot be referenced from a static context` | Calling instance method from `main` or static method | Create an object first, or make the method static |
+| `reached end of file while parsing` | Missing closing `}` | Count braces; use IDE auto-format |
+
+---
+
 ## More Error Types
 
 | Error | Meaning | Common Cause |
@@ -2462,66 +3041,23 @@ sorter.sort(new int[]{5, 1, 3});
 | `ConcurrentModificationException` | List modified while iterating | Remove in for-each loop |
 | `UnsupportedOperationException` | Operation not allowed | Modifying `List.of(...)` |
 
-## Immutable Collections (Java 9+)
+---
 
-```java
-// These collections cannot be modified after creation
-List<String> names = List.of("Alice", "Bob", "Charlie");
-Set<Integer> primes = Set.of(2, 3, 5, 7, 11);
-Map<String, Integer> scores = Map.of("Alice", 95, "Bob", 87);
+## Quick Tips
 
-// Map.ofEntries for larger maps
-Map<String, Integer> bigMap = Map.ofEntries(
-    Map.entry("Alice", 95),
-    Map.entry("Bob", 87),
-    Map.entry("Charlie", 92)
-);
+**Naming conventions:**
+- Classes & Interfaces: `PascalCase` → `MyClass`, `Runnable`
+- Variables & Methods: `camelCase` → `myVariable`, `getCount()`
+- Constants (`static final`): `ALL_CAPS` → `MAX_SIZE`, `PI`
+- Packages: `all.lowercase` → `com.example.app`
 
-// Attempting to modify throws UnsupportedOperationException
-// names.add("Dave");  // throws!
-
-// To get a mutable copy:
-List<String> mutable = new ArrayList<>(names);
-mutable.add("Dave");  // works
-```
-
-## Interface Advanced Features
-
-```java
-// Static methods in interfaces (Java 8+)
-public interface Validator {
-    boolean validate(String input);
-
-    static Validator notNull() {
-        return input -> input != null;
-    }
-
-    static Validator minLength(int min) {
-        return input -> input != null && input.length() >= min;
-    }
-
-    // Combine validators
-    default Validator and(Validator other) {
-        return input -> this.validate(input) && other.validate(input);
-    }
-}
-
-Validator check = Validator.notNull().and(Validator.minLength(3));
-check.validate("Hi");     // false (too short)
-check.validate("Hello");  // true
-
-// Functional interface (exactly one abstract method — usable as lambda)
-@FunctionalInterface
-public interface Transformer<T, R> {
-    R transform(T input);
-
-    // Can have default and static methods
-    default <V> Transformer<T, V> andThen(Transformer<R, V> after) {
-        return input -> after.transform(this.transform(input));
-    }
-}
-
-Transformer<String, Integer> length = String::length;
-Transformer<String, String> lengthStr = length.andThen(n -> "Length: " + n);
-lengthStr.transform("Hello");  // "Length: 5"
-```
+**Common gotchas:**
+- Use `equals()` to compare Strings, not `==` (which compares references)
+- Arrays start at index **0** — last element is `arr[arr.length - 1]`
+- `length` for arrays (property), `length()` for Strings (method), `size()` for ArrayList (method)
+- `int / int` = integer division — use `(double)` cast or `1.0 *` to get decimal result
+- Scanner's `nextInt()` leaves a newline in the buffer — call `nextLine()` after to consume it
+- `for (x : list)` loop — don't call `list.remove()` inside, use `removeIf()` or an Iterator
+- `ArrayList<int>` doesn't work — use `ArrayList<Integer>` (primitives need wrapper types)
+- `Math.random()` returns `[0.0, 1.0)` — multiply and cast for a range: `(int)(Math.random() * 6) + 1`
+- `switch` without `break` falls through to the next case — modern arrow syntax avoids this
